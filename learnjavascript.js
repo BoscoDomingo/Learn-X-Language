@@ -49,18 +49,34 @@ Infinity; // result of e.g. 1/0
 -Infinity; // result of e.g. -1/0
 NaN; // result of e.g. 0/0, stands for 'Not a Number'. Extremely toxic. Any operations with it will result in NaN
 
-// There's also a boolean type.
-true;
-false;
-
 // Strings are created with ' or " or `
+// Strings in JavaScript are sequences of Unicode UTF-16 characters.
 'abc';
 "Hello, world";
 `Hello with ${variables}`
 
+// There's also a boolean type.
+true;
+false;
+
+// Any value can be converted to a boolean according to the following rules:
+// false, null, undefined, NaN, 0 and "" are falsy.
+// Everything else is truthy.
+// Note that 0 is falsy and "0" is truthy, even though 0 == "0" (but "0" !== 0).
+Boolean('');  // false
+Boolean(234); // true
+// Rarely necessary, as JavaScript will silently perform this conversion when it expects a boolean
+
+
+// There's also `null` and `undefined`.
+null;      // used to indicate a deliberate non-value
+undefined; // used to indicate a value is not currently present (although
+           // `undefined` is actually a value itself)
+
 // Negation uses the ! symbol
 !true; // = false
 !false; // = true
+
 
 // Equality is ===
 1 === 1; // = true
@@ -82,8 +98,12 @@ false;
 // ... which works with more than just strings
 "1, 2, " + 3; // = "1, 2, 3"
 "Hello " + ["world", "!"]; // = "Hello world,!"
+// and can also have interesting effects
+'3' + 4 + 5;  // "345"
+ 3 + 4 + '5'; // "75"
 
-// and are compared with < and >
+
+// Compare with <, <=, >, >=
 "a" < "b"; // = true
 
 // Type coercion is performed for comparisons with double equals...
@@ -107,13 +127,6 @@ null === undefined; // = false
 // `length` is a property, so don't use ().
 "Hello".length; // = 5
 
-// There's also `null` and `undefined`.
-null;      // used to indicate a deliberate non-value
-undefined; // used to indicate a value is not currently present (although
-           // `undefined` is actually a value itself)
-
-// false, null, undefined, NaN, 0 and "" are falsy; everything else is truthy.
-// Note that 0 is falsy and "0" is truthy, even though 0 == "0" (but "0" !== 0).
 
 ///////////////////////////////////
 // 2. Variables, Arrays and Objects
@@ -121,20 +134,26 @@ undefined; // used to indicate a value is not currently present (although
 // Variables are declared with the `var` keyword. JavaScript is dynamically
 // typed, so you don't need to specify type. Assignment uses a single `=`
 // character.
+// NOTE: This changes greatly in ES6. Scroll down to that section to see more.
+// TL;DR `var` is no longer the preferred way
 var someVar = 5;
 
-// If you leave the var keyword off, you won't get an error...
+// If you leave the `var` keyword off, you won't get an error...
 someOtherVar = 10;
 
 // ...but your variable will be created in the global scope, not in the scope
 // you defined it in.
 
-// Variables declared without being assigned to are set to undefined.
+// Variables declared without being assigned to are set to `undefined`.
 var someThirdVar; // = undefined
 
 // If you want to declare a couple of variables, then you could use a comma
 // separator
-var someFourthVar = 2, someFifthVar = 4;
+let someFourthVar = 2, someFifthVar = 4;
+
+// There's also the handy ternary operator
+let allowed = (age > 18) ? 'yes' : 'no';
+
 
 // There's shorthand for performing math operations on variables:
 someVar += 5; // equivalent to someVar = someVar + 5; someVar is 10 now
@@ -145,8 +164,8 @@ someVar++; // now someVar is 101
 someVar--; // back to 100
 
 // Arrays are ordered lists of values, of any type.
-var myArrayFromFunction = new Array() //Could also include the number of starting values
-var myArray = ["Hello", 45, true];
+let myArrayFromFunction = new Array() //Could also include the number of starting values
+let myArray = ["Hello", 45, true];
 
 // Their members can be accessed using the square-brackets subscript syntax.
 // Array indices start at zero.
@@ -158,6 +177,13 @@ myArrayFromFunction[1] = 1
 myArray.push("World");
 myArray.length; // = 4
 
+// It's important to note that `length` will be 1 more than the highest
+// index. It doesn't necessarily indicate the number of elements in the Array
+const a = ['dog', 'cat', 'hen'];
+a[100] = 'fox';
+a.length; // 101, when it has 4 elements
+
+
 // Add/Modify at specific index
 myArray[3] = "Hello";
 
@@ -167,8 +193,14 @@ someVar = myArray.shift(); // Remove first element and return it
 myArray.push(3); // Add as the last element
 someVar = myArray.pop(); // Remove last element and return it
 
+// Concatenate another array
+a.concat([1,2,3,4])
+
+// Reverse an array
+a.reverse()
+
 // Join all elements of an array with semicolon
-var myArray0 = [32,false,"js",12,56,90];
+let myArray0 = [32,false,"js",12,56,90];
 myArray0.join(";"); // = "32;false;js;12;56;90"
 
 // Get subarray of elements from index 1 (include) to 4 (exclude)
@@ -181,17 +213,18 @@ myArray0.splice(2,4,"hi","wr","ld"); // = ["js",12,56,90]
 
 // JavaScript does not allow named indices for Arrays (associative arrays)
 // Instead it turns the Array into a simple object, rendering Array methods useless
-var person = []; //empty array
+let person = []; //empty array
 person["name"] = "John";
 person["age"] = 46;
 
 // JavaScript's objects are equivalent to "dictionaries" or "maps" in other
 // languages: an unordered collection of key-value pairs.
-var myObj = {key1: "Hello", key2: "World"};
+let emptyObj = {}
+let myObj = {key1: "Hello", key2: "World"};
 
 // Keys are strings, but quotes aren't required if they're a valid
 // JavaScript identifier. Values can be any type.
-var myObj = {myKey: "myValue", "my other key": 4};
+let myObj = {myKey: "myValue", "my other key": 4};
 
 // Object attributes can also be accessed using the subscript syntax,
 myObj["my other key"]; // = 4
@@ -209,7 +242,7 @@ myObj.myFourthKey; // = undefined
 // 3. Logic and Control Structures
 
 // The `if` structure works as you'd expect.
-var count = 1;
+let count = 1;
 if (count == 3){
     // evaluated if count is 3
 } else if (count == 4){
@@ -224,21 +257,21 @@ while (true){
 }
 
 // Do-while loops are like while loops, except they always run at least once.
-var input;
+let input;
 do {
     input = getInput();
 } while (!isValid(input));
 
 // The `for` loop is the same as C and Java:
 // initialization; continue condition; iteration.
-for (var i = 0; i < 5; i++){
+for (let i = 0; i < 5; i++){
     // will run 5 times
 }
 
 // Breaking out of labeled loops is similar to Java
 outer:
-for (var i = 0; i < 10; i++) {
-    for (var j = 0; j < 10; j++) {
+for (let i = 0; i < 10; i++) {
+    for (let j = 0; j < 10; j++) {
         if (i == 5 && j ==5) {
             break outer;
             // breaks out of outer loop instead of only the inner one
@@ -247,18 +280,18 @@ for (var i = 0; i < 10; i++) {
 }
 
 // The for/in statement allows iteration over properties of an object. Careful using it with an Array because it may NOT preserve order
-var description = "";
-var person = {fname:"Paul", lname:"Ken", age:18};
-for (var x in person){
+let description = "";
+let person = {fname:"Paul", lname:"Ken", age:18};
+for (let x in person){
     description += person[x] + " ";
 } // description = 'Paul Ken 18 '
 
 // The for/of statement allows iteration over iterable objects (including the built-in String,
 // Array, e.g. the Array-like arguments or NodeList objects, TypedArray, Map and Set,
 // and user-defined iterables).
-var myPets = "";
-var pets = ["cat", "dog", "hamster", "hedgehog"];
-for (var pet of pets){
+let myPets = "";
+let pets = ["cat", "dog", "hamster", "hedgehog"];
+for (let pet of pets){
     myPets += pet + " ";
 } // myPets = 'cat dog hamster hedgehog '
 
@@ -271,7 +304,10 @@ if (colour == "red" || colour == "blue"){
 }
 
 // && and || "short circuit", which is useful for setting default values.
-var name = otherName || "default";
+let name = otherName || "default";
+// Or checking for null values before accessing properties
+const name = o && o.getName();
+
 
 // The `switch` statement checks for equality with `===`.
 // Use 'break' after each case
@@ -311,6 +347,12 @@ function myFunction(){
 }
 myFunction(); // = undefined
 
+function myFunctionFixed() {
+    return (
+        {"this solution": "now works!"}
+    );
+}
+
 // JavaScript functions are first class objects, so they can be reassigned to
 // different variable names and passed to other functions as arguments - for
 // example, when supplying an event handler:
@@ -329,6 +371,33 @@ setInterval(myFunction, 5000);
 
 // This can be stopped with `clearInterval`
 clearInterval()
+
+// Functions have access to an additional variable inside their body called `arguments`,
+// which is an array-like object holding all of the values passed to the function.
+
+function add() {
+  let sum = 0;
+  for (const item of arguments) {
+    sum += item;
+  }
+  return sum;
+}
+
+add(2, 3, 4, 5); // 14
+
+// Another way is to use the rest operator (...). It will include within `args`
+// the entire list of uncaptured arguments that the function was called with
+function avg(...args) {
+    let sum = 0;
+    for (const item of args) {
+      sum += item;
+    }
+    return sum / args.length;
+  }
+
+avg(2, 3, 4, 5); // 3.5
+
+
 
 // Function objects don't even have to be declared with a name - you can write
 // an anonymous function definition directly into the arguments of another.
@@ -378,7 +447,7 @@ sayHelloInFiveSeconds("Adam"); // will open a popup with "Hello, Adam!" in 5s
 // 5. More about Objects; Constructors and Prototypes
 
 // Objects can contain functions.
-var myObj = {
+let myObj = {
     myFunc: function(){
         return "Hello world!";
     }
@@ -395,15 +464,15 @@ myObj = {
 };
 myObj.myFunc(); // = "Hello world!"
 
-// What this is set to has to do with how the function is called, not where
+// What `this` is set to has to do with how the function is called, not where
 // it's defined. So, our function doesn't work if it isn't called in the
 // context of the object.
-var myFunc = myObj.myFunc;
+let myFunc = myObj.myFunc;
 myFunc(); // = undefined
 
 // Inversely, a function can be assigned to the object and gain access to it
 // through `this`, even if it wasn't attached when it was defined.
-var myOtherFunc = function(){
+let myOtherFunc = function(){
     return this.myString.toUpperCase();
 };
 myObj.myOtherFunc = myOtherFunc;
@@ -412,7 +481,7 @@ myObj.myOtherFunc(); // = "HELLO WORLD!"
 // We can also specify a context for a function to execute in when we invoke it
 // using `call` or `apply`.
 
-var anotherFunc = function(s){
+let anotherFunc = function(s){
     return this.myString + s;
 };
 anotherFunc.call(myObj, " And Hello Moon!"); // = "Hello World! And Hello Moon!"
@@ -428,24 +497,26 @@ anotherFunc.apply(myObj, [" And Hello Sun!"]); // = "Hello World! And Hello Sun!
 Math.min(42, 6, 27); // = 6
 Math.min([42, 6, 27]); // = NaN (uh-oh!)
 Math.min.apply(Math, [42, 6, 27]); // = 6
+// You can achieve the same result using the spread operator in the function call.
+Math.min(...[42, 6, 27])
 
 // But, `call` and `apply` are only temporary. When we want it to stick, we can
 // use `bind`.
 
-var boundFunc = anotherFunc.bind(myObj);
+let boundFunc = anotherFunc.bind(myObj);
 boundFunc(" And Hello Saturn!"); // = "Hello World! And Hello Saturn!"
 
 // `bind` can also be used to partially apply (curry) a function.
 
-var product = function(a, b){ return a * b; };
-var doubler = product.bind(this, 2);
+let product = function(a, b){ return a * b; };
+let doubler = product.bind(this, 2);
 doubler(8); // = 16
 
 // When you call a function with the `new` keyword, a new object is created, and
 // made available to the function via the `this` keyword. Functions designed to be
 // called like that are called constructors.
 
-var MyConstructor = function(){
+let MyConstructor = function(){
     this.myNumber = 5;
 };
 myNewObj = new MyConstructor(); // = {myNumber: 5}
@@ -462,10 +533,10 @@ myNewObj.myNumber; // = 5
 // Some JS implementations let you access an object's prototype on the magic
 // property `__proto__`. While this is useful for explaining prototypes it's not
 // part of the standard; we'll get to standard ways of using prototypes later.
-var myObj = {
+let myObj = {
     myString: "Hello world!"
 };
-var myPrototype = {
+let myPrototype = {
     meaningOfLife: 42,
     myFunc: function(){
         return this.myString.toLowerCase();
@@ -493,7 +564,7 @@ myObj.meaningOfLife; // = 43
 
 // The for/in statement allows iteration over properties of an object,
 // walking up the prototype chain until it sees a null prototype.
-for (var x in myObj){
+for (let x in myObj){
     console.log(myObj[x]);
 }
 ///prints:
@@ -504,7 +575,7 @@ for (var x in myObj){
 
 // To only consider properties attached to the object itself
 // and not its prototypes, use the `hasOwnProperty()` check.
-for (var x in myObj){
+for (let x in myObj){
     if (myObj.hasOwnProperty(x)){
         console.log(myObj[x]);
     }
@@ -518,7 +589,7 @@ for (var x in myObj){
 
 // The first is Object.create, which is a recent addition to JS, and therefore
 // not available in all implementations yet.
-var myObj = Object.create(myPrototype);
+let myObj = Object.create(myPrototype);
 myObj.meaningOfLife; // = 43
 
 // The second way, which works anywhere, has to do with constructors.
@@ -531,15 +602,15 @@ MyConstructor.prototype = {
         return this.myNumber;
     }
 };
-var myNewObj2 = new MyConstructor();
+let myNewObj2 = new MyConstructor();
 myNewObj2.getMyNumber(); // = 5
 myNewObj2.myNumber = 6;
 myNewObj2.getMyNumber(); // = 6
 
 // Built-in types like strings and numbers also have constructors that create
 // equivalent wrapper objects.
-var myNumber = 12;
-var myNumberObj = new Number(12);
+let myNumber = 12;
+let myNumberObj = new Number(12);
 myNumber == myNumberObj; // = true
 
 // Except, they aren't exactly equivalent.
@@ -570,7 +641,7 @@ String.prototype.firstCharacter = function(){
 if (Object.create === undefined){ // don't overwrite it if it exists
     Object.create = function(proto){
         // make a temporary constructor with the right prototype
-        var Constructor = function(){};
+        let Constructor = function(){};
         Constructor.prototype = proto;
         // then use it to create a new, appropriately-prototyped object
         return new Constructor();
@@ -630,14 +701,33 @@ parseInt("123hello") // 123
 
 // ES6 Additions
 
-// The "let" keyword allows you to define variables in a lexical scope,
-// as opposed to a block scope like the var keyword does.
+// The `let` keyword allows you to define variables in a lexical scope,
+// as opposed to a block scope like the `var` keyword does.
 let name = "Billy";
 
 // Variables defined with let can be reassigned new values.
 name = "William";
 
-// Difference between var and let
+// Difference between `var` and `let`
+/* An important difference between JavaScript and other languages is that
+blocks do not have scope; only functions have a scope.
+So if a variable is defined using `var` in a compound statement
+(for example inside an if control structure), it will be visible
+to the entire function. ES6 fixed this. */
+
+// myVarVariable *is* visible out here
+for (var myVarVariable = 0; myVarVariable < 5; myVarVariable++) {
+    // myVarVariable is visible to the whole function
+  }
+// myVarVariable *is* visible out here
+
+// myLetVariable is *NOT* visible out here
+for (let myLetVariable = 0; myLetVariable < 5; myLetVariable++) {
+    // myLetVariable is only visible in here
+  }
+// myLetVariable is *NOT* visible out here
+
+
 function varTest() {
     var x = 1;
     if (true) {
@@ -656,14 +746,15 @@ function letTest() {
     console.log(x);  // 1
 }
 
-// The "const" keyword allows you to define a variable in a lexical scope
-// like with let, but you cannot reassign the value once one has been assigned.
+// The `const` keyword allows you to define a variable in a lexical scope
+// like with `let`, but you cannot reassign the value once one has been assigned.
 
 const pi = 3.14;
 
 pi = 4.13; // You cannot do this.
 
-// `let` and `const` are not subject to Variable Hoisting, which means that those declarations do not move to the top of the current execution context.
+// `let` and `const` are not subject to Variable Hoisting,
+// which means that those declarations do not move to the top of the current execution context.
 
 // Default values in parameters
 // Default value expressions are evaluated at function call time from left to right. This also means that default expressions can use the values of previously-filled parameters.
