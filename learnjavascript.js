@@ -71,7 +71,7 @@ Boolean(234); // true
 // There's also `null` and `undefined`.
 null;      // used to indicate a deliberate non-value
 undefined; // used to indicate a value is not currently present (although
-           // `undefined` is actually a value itself)
+// `undefined` is actually a value itself)
 
 // Negation uses the ! symbol
 !true; // = false
@@ -100,7 +100,7 @@ undefined; // used to indicate a value is not currently present (although
 "Hello " + ["world", "!"]; // = "Hello world,!"
 // and can also have interesting effects
 '3' + 4 + 5;  // "345"
- 3 + 4 + '5'; // "75"
+3 + 4 + '5'; // "75"
 
 
 // Compare with <, <=, >, >=
@@ -194,21 +194,21 @@ myArray.push(3); // Add as the last element
 someVar = myArray.pop(); // Remove last element and return it
 
 // Concatenate another array
-a.concat([1,2,3,4])
+a.concat([1, 2, 3, 4])
 
 // Reverse an array
 a.reverse()
 
 // Join all elements of an array with semicolon
-let myArray0 = [32,false,"js",12,56,90];
+let myArray0 = [32, false, "js", 12, 56, 90];
 myArray0.join(";"); // = "32;false;js;12;56;90"
 
 // Get subarray of elements from index 1 (include) to 4 (exclude)
-myArray0.slice(1,4); // = [false,"js",12]
+myArray0.slice(1, 4); // = [false,"js",12]
 
 // Remove 4 elements starting from index 2, and insert there strings
 // "hi","wr" and "ld"; return removed subarray
-myArray0.splice(2,4,"hi","wr","ld"); // = ["js",12,56,90]
+myArray0.splice(2, 4, "hi", "wr", "ld"); // = ["js",12,56,90]
 // myArray0 === [32,false,"hi","wr","ld"]
 
 // JavaScript does not allow named indices for Arrays (associative arrays)
@@ -220,11 +220,18 @@ person["age"] = 46;
 // JavaScript's objects are equivalent to "dictionaries" or "maps" in other
 // languages: an unordered collection of key-value pairs.
 let emptyObj = {}
-let myObj = {key1: "Hello", key2: "World"};
+let myObj = { key1: "Hello", key2: "World" };
 
 // Keys are strings, but quotes aren't required if they're a valid
 // JavaScript identifier. Values can be any type.
-let myObj = {myKey: "myValue", "my other key": 4};
+myObj = { myKey: "myValue", "my other key": 4 };
+
+// And you can create objects right from variables
+let property1 = 1, property2 = 2;
+let objFromVariables = {
+    property1,
+    property2,
+}
 
 // Object attributes can also be accessed using the subscript syntax,
 myObj["my other key"]; // = 4
@@ -243,16 +250,16 @@ myObj.myFourthKey; // = undefined
 
 // The `if` structure works as you'd expect.
 let count = 1;
-if (count == 3){
+if (count == 3) {
     // evaluated if count is 3
-} else if (count == 4){
+} else if (count == 4) {
     // evaluated if count is 4
 } else {
     // evaluated if it's not either 3 or 4
 }
 
 // As does `while`.
-while (true){
+while (true) {
     // An infinite loop!
 }
 
@@ -264,7 +271,7 @@ do {
 
 // The `for` loop is the same as C and Java:
 // initialization; continue condition; iteration.
-for (let i = 0; i < 5; i++){
+for (let i = 0; i < 5; i++) {
     // will run 5 times
 }
 
@@ -272,7 +279,7 @@ for (let i = 0; i < 5; i++){
 outer:
 for (let i = 0; i < 10; i++) {
     for (let j = 0; j < 10; j++) {
-        if (i == 5 && j ==5) {
+        if (i == 5 && j == 5) {
             break outer;
             // breaks out of outer loop instead of only the inner one
         }
@@ -281,8 +288,8 @@ for (let i = 0; i < 10; i++) {
 
 // The for/in statement allows iteration over properties of an object. Careful using it with an Array because it may NOT preserve order
 let description = "";
-let person = {fname:"Paul", lname:"Ken", age:18};
-for (let x in person){
+let person = { fname: "Paul", lname: "Ken", age: 18 };
+for (let x in person) {
     description += person[x] + " ";
 } // description = 'Paul Ken 18 '
 
@@ -291,15 +298,15 @@ for (let x in person){
 // and user-defined iterables).
 let myPets = "";
 let pets = ["cat", "dog", "hamster", "hedgehog"];
-for (let pet of pets){
+for (let pet of pets) {
     myPets += pet + " ";
 } // myPets = 'cat dog hamster hedgehog '
 
 // && is logical and, || is logical or
-if (house.size == "big" && house.colour == "blue"){
+if (house.size == "big" && house.colour == "blue") {
     house.contains = "bear";
 }
-if (colour == "red" || colour == "blue"){
+if (colour == "red" || colour == "blue") {
     // colour is either red or blue
 }
 
@@ -314,18 +321,18 @@ const name = o && o.getName();
 // or the cases after the correct one will be executed too.
 grade = 'B';
 switch (grade) {
-  case 'A':
-    console.log("Great job");
-    break;
-  case 'B':
-    console.log("OK job");
-    break;
-  case 'C':
-    console.log("You can do better");
-    break;
-  default:
-    console.log("Oy vey");
-    break;
+    case 'A':
+        console.log("Great job");
+        break;
+    case 'B':
+        console.log("OK job");
+        break;
+    case 'C':
+        console.log("You can do better");
+        break;
+    default:
+        console.log("Oy vey");
+        break;
 }
 
 
@@ -333,7 +340,7 @@ switch (grade) {
 // 4. Functions, Scope and Closures
 
 // JavaScript functions are declared with the `function` keyword.
-function myFunction(thing){
+function myFunction(thing) {
     return thing.toUpperCase();
 }
 myFunction("foo"); // = "FOO"
@@ -341,22 +348,22 @@ myFunction("foo"); // = "FOO"
 // Note that the value to be returned must start on the same line as the
 // `return` keyword, otherwise you'll always return `undefined` due to
 // automatic semicolon insertion. Watch out for this when using Allman style.
-function myFunction(){
+function myFunction() {
     return // <- semicolon automatically inserted here
-    {thisIsAn: 'object literal'};
+    { thisIsAn: 'object literal' };
 }
 myFunction(); // = undefined
 
 function myFunctionFixed() {
     return (
-        {"this solution": "now works!"}
+        { "this solution": "now works!" }
     );
 }
 
 // JavaScript functions are first class objects, so they can be reassigned to
 // different variable names and passed to other functions as arguments - for
 // example, when supplying an event handler:
-function myFunction(){
+function myFunction() {
     // this code will be called in 5 seconds' time
 }
 setTimeout(myFunction, 5000);
@@ -364,7 +371,7 @@ setTimeout(myFunction, 5000);
 // and Node.js.
 
 // Another function provided by browsers is setInterval
-function myFunction(){
+function myFunction() {
     // this code will be called every 5 seconds
 }
 setInterval(myFunction, 5000);
@@ -376,11 +383,11 @@ clearInterval()
 // which is an array-like object holding all of the values passed to the function.
 
 function add() {
-  let sum = 0;
-  for (const item of arguments) {
-    sum += item;
-  }
-  return sum;
+    let sum = 0;
+    for (const item of arguments) {
+        sum += item;
+    }
+    return sum;
 }
 
 add(2, 3, 4, 5); // 14
@@ -390,10 +397,10 @@ add(2, 3, 4, 5); // 14
 function avg(...args) {
     let sum = 0;
     for (const item of args) {
-      sum += item;
+        sum += item;
     }
     return sum / args.length;
-  }
+}
 
 avg(2, 3, 4, 5); // 3.5
 
@@ -401,21 +408,21 @@ avg(2, 3, 4, 5); // 3.5
 
 // Function objects don't even have to be declared with a name - you can write
 // an anonymous function definition directly into the arguments of another.
-setTimeout(function(){
+setTimeout(function () {
     // this code will be called in 5 seconds' time
 }, 5000);
 
 // JavaScript has function scope; functions get their own scope but other blocks
 // do not.
-if (true){
+if (true) {
     var i = 5;
 }
 i; // = 5 - not undefined as you'd expect in a block-scoped language
 
 // This has led to a common pattern of "immediately-executing anonymous
-// functions", which prevent temporary variables from leaking into the global
-// scope.
-(function(){
+// functions", or "IIFEs (Immediately Invoked Function Expressions)
+// which prevent temporary variables from leaking into the global scope.
+(function () {
     var temporary = 5;
     // We can access the global scope by assigning to the "global object", which
     // in a web browser is always `window`. The global object may have a
@@ -425,14 +432,28 @@ i; // = 5 - not undefined as you'd expect in a block-scoped language
 temporary; // raises ReferenceError
 permanent; // = 10
 
+// And they allow recursion this way. The name is only available
+// within the function scope
+(function counter(elm) {
+    if (elm.nodeType == 3) { // TEXT_NODE
+        return elm.nodeValue.length;
+    }
+    let count = 0;
+    for (let i = 0, child; child = elm.childNodes[i]; i++) {
+        count += counter(child);
+    }
+    return count;
+})(document.body);
+
+
 // One of JavaScript's most powerful features is closures. If a function is
 // defined inside another function, the inner function has access to all the
 // outer function's variables, even after the outer function exits.
-function sayHelloInFiveSeconds(name){
-    var prompt = "Hello, " + name + "!";
-    // Inner functions are put in the local scope by default, as if they were
-    // declared with `var`.
-    function inner(){
+function sayHelloInFiveSeconds(name) {
+    let prompt = "Hello, " + name + "!";
+    // Inner functions are put in the local scope by default
+    function inner() {
+        let someInternalVariable = "" // only accessibly in inner()
         alert(prompt);
     }
     setTimeout(inner, 5000);
@@ -448,7 +469,7 @@ sayHelloInFiveSeconds("Adam"); // will open a popup with "Hello, Adam!" in 5s
 
 // Objects can contain functions.
 let myObj = {
-    myFunc: function(){
+    myFunc: function () {
         return "Hello world!";
     }
 };
@@ -458,7 +479,7 @@ myObj.myFunc(); // = "Hello world!"
 // they're attached to using the `this` keyword.
 myObj = {
     myString: "Hello world!",
-    myFunc: function(){
+    myFunc: function () {
         return this.myString;
     }
 };
@@ -468,11 +489,11 @@ myObj.myFunc(); // = "Hello world!"
 // it's defined. So, our function doesn't work if it isn't called in the
 // context of the object.
 let myFunc = myObj.myFunc;
-myFunc(); // = undefined
+myFunc(); // = undefined since it's looking in the global scope for `myString`
 
 // Inversely, a function can be assigned to the object and gain access to it
 // through `this`, even if it wasn't attached when it was defined.
-let myOtherFunc = function(){
+let myOtherFunc = function () {
     return this.myString.toUpperCase();
 };
 myObj.myOtherFunc = myOtherFunc;
@@ -481,10 +502,20 @@ myObj.myOtherFunc(); // = "HELLO WORLD!"
 // We can also specify a context for a function to execute in when we invoke it
 // using `call` or `apply`.
 
-let anotherFunc = function(s){
+let anotherFunc = function (s) {
     return this.myString + s;
 };
 anotherFunc.call(myObj, " And Hello Moon!"); // = "Hello World! And Hello Moon!"
+
+function lastNameInCaps() {
+    return this.last.toUpperCase();
+}
+const s = new Person('Simon', 'Willison');
+lastNameInCaps.call(s);
+// Is the same as:
+s.lastNameInCaps = lastNameInCaps;
+s.lastNameInCaps(); // WILLISON
+
 
 // The `apply` function is nearly identical, but takes an array for an argument
 // list.
@@ -508,7 +539,7 @@ boundFunc(" And Hello Saturn!"); // = "Hello World! And Hello Saturn!"
 
 // `bind` can also be used to partially apply (curry) a function.
 
-let product = function(a, b){ return a * b; };
+let product = function (a, b) { return a * b; };
 let doubler = product.bind(this, 2);
 doubler(8); // = 16
 
@@ -516,8 +547,8 @@ doubler(8); // = 16
 // made available to the function via the `this` keyword. Functions designed to be
 // called like that are called constructors.
 
-let MyConstructor = function(){
-    this.myNumber = 5;
+let MyConstructor = function () {
+    this.myNumber = 5; // notice there's no `return`
 };
 myNewObj = new MyConstructor(); // = {myNumber: 5}
 myNewObj.myNumber; // = 5
@@ -525,6 +556,7 @@ myNewObj.myNumber; // = 5
 // Unlike most other popular object-oriented languages, JavaScript has no
 // concept of 'instances' created from 'class' blueprints; instead, JavaScript
 // combines instantiation and inheritance into a single concept: a 'prototype'.
+// NOTE: This changes in ES6 with the introduction of classes
 
 // Every JavaScript object has a 'prototype'. When you go to access a property
 // on an object that doesn't exist on the actual object, the interpreter will
@@ -538,7 +570,7 @@ let myObj = {
 };
 let myPrototype = {
     meaningOfLife: 42,
-    myFunc: function(){
+    myFunc: function () {
         return this.myString.toLowerCase();
     }
 };
@@ -556,6 +588,22 @@ myPrototype.__proto__ = {
 };
 myObj.myBoolean; // = true
 
+// Another alternative is the `prototype` property of the constructor
+function Person(first, last) {
+    this.first = first;
+    this.last = last;
+}
+let john = new Person("John", "Doe")
+john.fullName() // TypeError: john.fullName is not a function
+Person.prototype.fullName = function () {
+    return this.first + ' ' + this.last;
+};
+Person.prototype.fullNameReversed = function () {
+    return this.last + ', ' + this.first;
+};
+john.fullName // "John Doe"
+
+
 // There's no copying involved here; each object stores a reference to its
 // prototype. This means we can alter the prototype and our changes will be
 // reflected everywhere.
@@ -564,7 +612,7 @@ myObj.meaningOfLife; // = 43
 
 // The for/in statement allows iteration over properties of an object,
 // walking up the prototype chain until it sees a null prototype.
-for (let x in myObj){
+for (let x in myObj) {
     console.log(myObj[x]);
 }
 ///prints:
@@ -575,8 +623,8 @@ for (let x in myObj){
 
 // To only consider properties attached to the object itself
 // and not its prototypes, use the `hasOwnProperty()` check.
-for (let x in myObj){
-    if (myObj.hasOwnProperty(x)){
+for (let x in myObj) {
+    if (myObj.hasOwnProperty(x)) {
         console.log(myObj[x]);
     }
 }
@@ -598,7 +646,7 @@ myObj.meaningOfLife; // = 43
 // are given when they're created with that constructor and the new keyword.
 MyConstructor.prototype = {
     myNumber: 5,
-    getMyNumber: function(){
+    getMyNumber: function () {
         return this.myNumber;
     }
 };
@@ -617,17 +665,17 @@ myNumber == myNumberObj; // = true
 typeof myNumber; // = 'number'
 typeof myNumberObj; // = 'object'
 myNumber === myNumberObj; // = false
-if (0){
+if (0) {
     // This code won't execute, because 0 is falsy.
 }
-if (new Number(0)){
-   // This code will execute, because wrapped numbers are objects, and objects
-   // are always truthy.
+if (new Number(0)) {
+    // This code will execute, because wrapped numbers are objects, and objects
+    // are always truthy.
 }
 
 // However, the wrapper objects and the regular builtins share a prototype, so
 // you can actually add functionality to a string, for instance.
-String.prototype.firstCharacter = function(){
+String.prototype.firstCharacter = function () {
     return this.charAt(0);
 };
 "abc".firstCharacter(); // = "a"
@@ -638,10 +686,10 @@ String.prototype.firstCharacter = function(){
 
 // For instance, we mentioned that Object.create isn't yet available in all
 // implementations, but we can still use it with this polyfill:
-if (Object.create === undefined){ // don't overwrite it if it exists
-    Object.create = function(proto){
+if (Object.create === undefined) { // don't overwrite it if it exists
+    Object.create = function (proto) {
         // make a temporary constructor with the right prototype
-        let Constructor = function(){};
+        let Constructor = function () { };
         Constructor.prototype = proto;
         // then use it to create a new, appropriately-prototyped object
         return new Constructor();
@@ -649,7 +697,7 @@ if (Object.create === undefined){ // don't overwrite it if it exists
 }
 
 /* Useful Functions */
-typeof(5) // Number
+typeof (5) // Number
 
 // You can reliably test for NaN using the built-in Number.isNaN() function, which behaves just as its name implies:
 Number.isNaN(NaN); // true
@@ -658,7 +706,7 @@ Number.isNaN('1'); // false
 Number.isNaN(undefined); // false
 Number.isNaN({}); // false
 Number.isNaN([1]) // false
-Number.isNaN([1,2]) // false
+Number.isNaN([1, 2]) // false
 
 // But don't test for NaN using the global isNaN() function, which has unintuitive behavior:
 isNaN('hello'); // true
@@ -666,7 +714,7 @@ isNaN('1'); // false
 isNaN(undefined); // true
 isNaN({}); // true
 isNaN([1]) // false
-isNaN([1,2]) // true
+isNaN([1, 2]) // true
 
 
 // You can test for Infinity, -Infinity and NaN values using the built-in isFinite() function:
@@ -690,13 +738,161 @@ parseFloat("10.54")
 parseInt("123hello") // 123
 
 
-// You can also use the unary + operator to convert values to numbers.
-+ '42';   // 42
+    // You can also use the unary + operator to convert values to numbers.
+    + '42';   // 42
 + '010';  // 10
 + '0x10'; // 16
 // Be careful though. Unlike parseInt, the "+" operator converts the
 // string to NaN if there is an invalid character contained within it
 + "123hello" // NaN
+
+// Strict Mode
+/* JavaScript's strict mode, introduced in ECMAScript 5, is a way to opt in to a restricted variant of JavaScript, thereby implicitly opting-out of "sloppy mode". Strict mode isn't just a subset: it intentionally has different semantics from normal code. Browsers not supporting strict mode will run strict mode code with different behavior from browsers that do, so don't rely on strict mode without feature-testing for support for the relevant aspects of strict mode. Strict mode code and non-strict mode code can coexist, so scripts can opt into strict mode incrementally.
+
+Strict mode makes several changes to normal JavaScript semantics:
+
+    Eliminates some JavaScript silent errors by changing them to throw errors.
+    Fixes mistakes that make it difficult for JavaScript engines to perform optimizations: strict mode code can sometimes be made to run faster than identical code that's not strict mode.
+    Prohibits some syntax likely to be defined in future versions of ECMAScript.
+ */
+// To invoke strict mode for an entire script, put the exact statement "use strict"; (or 'use strict';) before any other statements.
+'use strict';
+
+function strict() {
+    // Function-level strict mode syntax
+    'use strict';
+    function nested() { return 'And so am I!'; }
+    return "Hi!  I'm a strict mode function!  " + nested();
+}
+function notStrict() { return "I'm not strict."; }
+
+// Async-await
+
+// An async function is a function declared with the `async` keyword,
+// and the `await` keyword is permitted within it. The async and await keywords
+// enable asynchronous, promise-based behaviour to be written in a
+// cleaner style, avoiding the need to explicitly configure promise chains.
+
+function resolveAfter2Seconds() {
+    return new Promise(resolve => {
+        setTimeout(() => {
+            resolve('resolved');
+        }, 2000);
+    });
+}
+
+async function asyncCall() {
+    console.log('calling');
+    const result = await resolveAfter2Seconds();
+    console.log(result);
+}
+
+asyncCall(); // expected output: "calling", "resolved" after 2 seconds
+
+// A function preceded by `async` always returns a promise. If the return value
+// is not explicitly a promise, it will be implicitly wrapped in a promise.
+
+async function foo() {
+    return 1
+}
+// Similar to
+function foo() {
+    return Promise.resolve(1)
+}
+// But not equal: even though the return value of an `async` function behaves
+// as if it's wrapped in a `Promise.resolve`, they are not equivalent.
+
+// An async function will return a different reference, whereas `Promise.resolve`
+// returns the same reference if the given value is a promise.
+
+const p = new Promise((res, rej) => {
+    res(1);
+})
+
+async function asyncReturn() {
+    return p;
+}
+
+function basicReturn() {
+    return Promise.resolve(p);
+}
+
+console.log(p === basicReturn()); // true
+console.log(p === asyncReturn()); // false
+
+// Execution order, concurrency and parallelism in async functions
+function resolveAfter2Seconds() {
+    console.log("starting slow promise")
+    return new Promise(resolve => {
+        setTimeout(function () {
+            resolve("slow")
+            console.log("slow promise is done")
+        }, 2000)
+    })
+}
+
+function resolveAfter1Second() {
+    console.log("starting fast promise")
+    return new Promise(resolve => {
+        setTimeout(function () {
+            resolve("fast")
+            console.log("fast promise is done")
+        }, 1000)
+    })
+}
+
+async function sequentialStart() {
+    console.log('==SEQUENTIAL START==')
+
+    // 1. Execution gets here almost instantly
+    const slow = await resolveAfter2Seconds()
+    console.log(slow) // 2. this runs 2 seconds after 1.
+
+    const fast = await resolveAfter1Second()
+    console.log(fast) // 3. this runs 3 seconds after 1.
+}
+
+async function concurrentStart() {
+    console.log('==CONCURRENT START with await==');
+    const slow = resolveAfter2Seconds() // starts timer immediately
+    const fast = resolveAfter1Second() // starts timer immediately
+
+    // 1. Execution gets here almost instantly
+    console.log(await slow) // 2. this runs 2 seconds after 1.
+    console.log(await fast) // 3. this runs 2 seconds after 1., immediately after 2., since fast is already resolved
+}
+
+function concurrentPromise() {
+    console.log('==CONCURRENT START with Promise.all==')
+    return Promise.all([resolveAfter2Seconds(), resolveAfter1Second()]).then((messages) => {
+        console.log(messages[0]) // slow
+        console.log(messages[1]) // fast
+    })
+}
+
+async function parallel() {
+    console.log('==PARALLEL with await Promise.all==')
+
+    // Start 2 "jobs" in parallel and wait for both of them to complete
+    await Promise.all([
+        (async () => console.log(await resolveAfter2Seconds()))(),
+        (async () => console.log(await resolveAfter1Second()))()
+    ])
+}
+
+sequentialStart() // after 2 seconds, logs "slow", then after 1 more second, "fast"
+
+// wait above to finish
+setTimeout(concurrentStart, 4000) // after 2 seconds, logs "slow" and then "fast"
+
+// wait again
+setTimeout(concurrentPromise, 7000) // same as concurrentStart
+
+// wait again
+setTimeout(parallel, 10000) // truly parallel: after 1 second, logs "fast", then after 1 more second, "slow"
+
+// Classes
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes
 
 
 // ES6 Additions
@@ -718,13 +914,13 @@ to the entire function. ES6 fixed this. */
 // myVarVariable *is* visible out here
 for (var myVarVariable = 0; myVarVariable < 5; myVarVariable++) {
     // myVarVariable is visible to the whole function
-  }
+}
 // myVarVariable *is* visible out here
 
 // myLetVariable is *NOT* visible out here
 for (let myLetVariable = 0; myLetVariable < 5; myLetVariable++) {
     // myLetVariable is only visible in here
-  }
+}
 // myLetVariable is *NOT* visible out here
 
 
@@ -758,9 +954,9 @@ pi = 4.13; // You cannot do this.
 
 // Default values in parameters
 // Default value expressions are evaluated at function call time from left to right. This also means that default expressions can use the values of previously-filled parameters.
-const test = (a, b = 3, c = a*b) => {
+const test = (a, b = 3, c = a * b) => {
     return a + b + c;
-  }
+}
 console.log(test(5)); // 23
 
 // There is a new syntax for functions in ES6 known as "lambda syntax" or "arrow functions".
@@ -797,6 +993,119 @@ console.log(greet("User")) // Welcome User
 const arr = [2, 3, 7, 8];
 
 arr.map(v => v * 2); // [4, 6, 14, 16]
+
+// Computed Property names
+// With ES6, you can now use computed property names. Using the square bracket
+// notation [], we can use an expression for a property name, e.g.
+// concatenating strings.
+let prop = 'name';
+
+let user = {
+  [prop]: 'Jack',
+};
+console.log(user.name); // Jack
+
+var i = 0;
+var a = {
+  ['foo' + ++i]: i,
+  ['foo' + ++i]: i,
+  ['foo' + ++i]: i
+};
+
+console.log(a.foo1); // 1
+console.log(a.foo2); // 2
+console.log(a.foo3); // 3
+
+// Object.assign() to create new objects from others
+// The first parameter is the target object you want to apply new properties to.
+// Every parameter after the first will be used as sources for the target.
+// There are no limitations on the number of source parameters.
+// Order is important since properties in the second parameter will be overridden
+// by properties of the same name in third parameter, and so on.
+let person = {
+    name: 'Jack',
+    age: 18,
+    sex: 'male'
+};
+let student = {
+    name: 'Bob',
+    age: 20,
+    xp: '2'
+};
+
+let newStudent = Object.assign({}, person, student);
+
+console.log(newStudent.name); // Bob
+console.log(newStudent.age); // 20
+console.log(newStudent.sex); // male
+console.log(newStudent.xp); // 2
+
+// This can be leveraged to create copies of objects instead
+// of references
+let originalObject = {
+    property1,
+    property2
+}
+let referenceToOriginal = originalObject;
+let copyOfOriginal = Object.assign({}, originalObject);
+
+// Array Destructuring
+let array = ['1', '2', '3'];
+let [one, two, three] = array;
+
+console.log(one); // 1
+console.log(two); // 2
+console.log(three); // 3
+
+let a = () => {
+    return [1, 2, 3];
+};
+
+[one, , three] = a();
+
+console.log(one); // 1
+console.log(three); // 2
+
+let a, b, c = 4, d = 8;
+
+[a, b = 6] = [2];
+console.log(a); // 2
+console.log(b); // 6
+
+// It can be extremely useful to swap values out too
+[c, d] = [d, c];
+console.log(c); // 8
+console.log(d); // 4
+
+//Object Destructuring
+let obj = {h:100, s: true};
+let {h, s} = obj;
+
+console.log(h); // 100
+console.log(s); // true
+
+let a,b;
+({a, b} = {a: 'Hello ', b: 'Jack'}); // The () with a semicolon (;) at the end
+// are mandatory when destructuring without a declaration.
+let {a, b} = {a: 'Hello ', b: 'Jack'}; //Alternative
+
+// Assign new variable names
+var o = {h: 42, s: true};
+var {h: foo, s: bar} = o;
+
+console.log(h); // Error
+console.log(o.h); // 42
+console.log(foo); // 42
+
+// You can also assign default values to variables,
+// in case the value unpacked from the object is undefined.
+obj = {id: 42, name: "Jack"};
+let {id = 10, age = 20} = obj;
+
+console.log(id); // 42
+console.log(age); // 20
+
+
 
 // JavaScript and the DOM
 // JavaScript can manipulate the DOM when used in conjunction with HTML
@@ -843,32 +1152,32 @@ child.parentNode.removeChild(child);
 // Event Handlers
 // You can assign event handlers to multiple types of events in two ways
 // HTML
-<!DOCTYPE html>
-<html>
-	<head>
-		<title>Page Title</title>
-	</head>
-	<body>
-		<button onclick="show();">Click Me</button>
-	</body>
-</html>
+< !DOCTYPE html >
+    <html>
+        <head>
+            <title>Page Title</title>
+        </head>
+        <body>
+            <button onclick="show();">Click Me</button>
+        </body>
+    </html>
 // JS
 function show() {
     alert("Hi there");
 }
 
 // HTML
-<!DOCTYPE html>
-<html>
-	<head>
-		<title>Page Title</title>
-	</head>
-	<body>
-		<button id="demo">Click Me</button>
-	</body>
-</html>
+< !DOCTYPE html >
+    <html>
+        <head>
+            <title>Page Title</title>
+        </head>
+        <body>
+            <button id="demo">Click Me</button>
+        </body>
+    </html>
 // JS
-window.onload = function() {
+window.onload = function () {
     var x = document.getElementById('demo');
     x.onclick = function () {
         document.body.innerHTML = Date();
@@ -882,7 +1191,7 @@ element.addEventListener("click", myFunction);
 element.addEventListener("mouseover", myFunction);
 // They can also be removed, including themselves
 element.removeEventListener("mouseover", myFunction);
-window.onload = function() {
+window.onload = function () {
     var btn = document.getElementById("demo");
     btn.addEventListener("click", myFunction);
 
