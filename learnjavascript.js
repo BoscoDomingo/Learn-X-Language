@@ -214,6 +214,26 @@ let person = []; //empty array
 person["name"] = "John";
 person["age"] = 46;
 
+// Spread/Rest Operators
+// `...` is used to spread out an array into its inidividual elements.
+let args = [1, 2, 3];
+console.log(...args) // 1, 2, 3
+
+// The old way of inserting elements into an array is to use the `splice`
+var arr = ["One", "Two", "Five"];
+
+arr.splice(2, 0, "Three");
+arr.splice(3, 0, "Four");
+console.log(arr); // ["One", "Two", "Three", "Four", "Five"]
+
+// Now we can use
+let newArr = ['Three', 'Four'];
+let arr = ['One', 'Two', ...newArr, 'Five'];
+console.log(arr); // ["One", "Two", "Three", "Four", "Five"]
+
+// But the Spread operator can also be a Rest one, which does
+// the exact opposite. More in the Functions section
+
 // Array Destructuring
 // Useful to grab specific values from a certain point
 let array = ['1', '2', '3'];
@@ -550,7 +570,7 @@ function add() {
 
 add(2, 3, 4, 5); // 14
 
-// Since ES6, a new way is to use the Rest/Spread operator (...). It will include within `args`
+// Since ES6, a new way is to use the Rest Operator (...). It will include within `args`
 // the entire list of uncaptured arguments that the function was called with
 function avg(...args) {
     let sum = 0;
@@ -567,6 +587,17 @@ avg(2, 3, 4, 5); // 3.5
 // Only the last parameter of a function may be marked as a rest parameter.
 // If there are no extra arguments, the rest parameter will simply be an empty array;
 // the rest parameter will NEVER be undefined.
+
+const obj1 = { foo: 'bar', x: 42 };
+const obj2 = { foo: 'baz', y: 5 };
+const merge = (...objects) => ({ ...objects });
+
+let mergedObj = merge(obj1, obj2);
+// { 0: { foo: 'bar', x: 42 }, 1: { foo: 'baz', y: 5 } }
+
+let mergedObj2 = merge({}, obj1, obj2);
+// { 0: {}, 1: { foo: 'bar', x: 42 }, 2: { foo: 'baz', y: 5 } }
+// For this operation, use Object.assign()
 
 // Function objects don't even have to be declared with a name - you can write
 // an anonymous function definition directly into the arguments of another.
@@ -851,6 +882,8 @@ if (Object.create === undefined) { // don't overwrite it if it exists
         return new Constructor();
     };
 }
+
+
 ///////////////////////////////////
 // 6. Useful Functions
 typeof (5) // Number
@@ -902,30 +935,170 @@ parseInt("123hello") // 123
 // string to NaN if there is an invalid character contained within it
 + "123hello" // NaN
 
-// Strict Mode
-/* JavaScript's strict mode, introduced in ECMAScript 5, is a way to opt in to a restricted variant of JavaScript, thereby implicitly opting-out of "sloppy mode". Strict mode isn't just a subset: it intentionally has different semantics from normal code. Browsers not supporting strict mode will run strict mode code with different behavior from browsers that do, so don't rely on strict mode without feature-testing for support for the relevant aspects of strict mode. Strict mode code and non-strict mode code can coexist, so scripts can opt into strict mode incrementally.
+console.log([4, 5, 1, 8, 2, 0].find(x => x > 3)); // 4
+console.log([4, 5, 1, 8, 2, 0].findIndex(x => x > 3)); // 0
 
-Strict mode makes several changes to normal JavaScript semantics:
+console.log("foo".repeat(3)); // "foofoofoo"
+console.log("foobarbaz".startsWith("foo", 0)); // true
+console.log("foobarbaz".endsWith("baz")); // true
+console.log("foobarbaz".endsWith("baz", 8)); // false
+console.log("foobarbaz".endsWith("baz", 9)); // true
+console.log("foobarbaz".includes("ooba", 1)); // true
+console.log("foobarbaz".includes("ooba", 2)); // false
 
-    Eliminates some JavaScript silent errors by changing them to throw errors.
-    Fixes mistakes that make it difficult for JavaScript engines to perform optimizations: strict mode code can sometimes be made to run faster than identical code that's not strict mode.
-    Prohibits some syntax likely to be defined in future versions of ECMAScript.
- */
-// To invoke strict mode for an entire script, put the exact statement "use strict"; (or 'use strict';) before any other statements.
-'use strict';
-
-function strict() {
-    // Function-level strict mode syntax
-    'use strict';
-    function nested() { return 'And so am I!'; }
-    return "Hi!  I'm a strict mode function!  " + nested();
-}
-function notStrict() { return "I'm not strict."; }
 
 ///////////////////////////////////
-// 7. Concurrency, Promises and Async-await
+// 7. Classes
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes
+// Classes have members: properties (variables and constants) and methods (functions)
+// A class uses the keyword class and contains a constructor method for initializing.
+class Rectangle {
+    constructor(height, width) {
+        this.height = height;
+        this.width = width;
+    }
+}
+// Class Declarations are not hoisted while Function Declarations are.
+// If you try to access your class before declaring it, ReferenceError will be returned.
+
+// To instantiate a class, simply call the constructor with `new`
+const square = new Rectangle(10, 10);
+
+// You can also define a class with a class expression, where the class can be named or unnamed.
+// Named
+var Square = class Rectangle {
+    constructor(height, width) {
+        this.height = height;
+        this.width = width;
+    }
+};
+
+// Unnamed
+var Square = class {
+    constructor(side) {
+        this.height = side;
+        this.width = side;
+    }
+};
+
+// Classes can have methods as well as getters
+class Rectangle {
+    constructor(height, width) {
+        this.height = height;
+        this.width = width;
+    }
+
+    get area() {
+        return this.calcArea();
+    }
+
+    calcArea() {
+        return this.height * this.width;
+    }
+}
+
+console.log(new Rectangle(5, 5).area); // 25
+
+// Static methods cannot be called through a class instance...
+class Point {
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    static distance(a, b) {
+        const dx = a.x - b.x;
+        const dy = a.y - b.y;
+
+        return Math.hypot(dx, dy);
+    }
+}
+
+const p1 = new Point(7, 2);
+const p2 = new Point(3, 8);
+// ...and are called via the Class itself
+console.log(Point.distance(p1, p2));
+
+// Inheritance
+// The `extends` keyword is used to create classes that inherit
+// members from the superclass.
+// This gives access to a new keyword, `super`, which references
+// the parent class.
+// If there is a constructor present in the subclass,
+// it needs to first call `super()` before using `this`.
+class Animal {
+    constructor(name) {
+        this.name = name;
+    }
+    speak() {
+        console.log(this.name + ' makes a noise.');
+    }
+}
+
+// If no constructor is present, it is automatically
+// created and called by the subclass.
+class Dog extends Animal {
+    speak() { // Method is overridden
+        console.log(this.name + ' barks.');
+    }
+}
+
+///////////////////////////////////
+// 8. Map & Set
+/*
+A Map object can be used to hold key/value pairs. A key or value in a map can be anything (objects and primitive values).
+An Object is similar to Map but there are important differences that make using a Map preferable in certain cases:
+1) The keys can be any type including functions, objects, and any primitive.
+2) You can get the size of a Map.
+3) You can directly iterate over Map.
+4) Performance of the Map is better in scenarios involving frequent addition and removal of key/value pairs.
+*/
+
+// `new Map([iterable])` creates a Map object where `iterable` is an array
+// or any other iterable object whose elements are arrays (with a key/value pair each).
+let map = new Map([['k1', 'v1'], ['k2', 'v2']]);
+
+console.log(map.size); // 2
+
+// Methods
+map.set(key, value) // Adds a specified key/value pair to the map. If the specified key already exists, value corresponding to it is replaced with the specified value.
+map.get(key) // Gets the value corresponding to a specified key in the map. If the specified key doesn't exist, undefined is returned.
+map.has(key) // Returns true if a specified key exists in the map and false otherwise.
+map.delete(key) // Deletes the key/value pair with a specified key from the map and returns true. Returns false if the element does not exist.
+map.clear() // Removes all key/value pairs from map.
+map.keys() // Returns an Iterator of keys in the map for each element.
+map.values() // Returns an Iterator of values in the map for each element.
+map.entries() // Returns an Iterator of array[key, value] in the map for each element.
+
+/*
+A Set object can be used to hold unique values (no repetitions are allowed).
+A value in a set can be anything (objects and primitive values).
+ */
+
+// `new Set([iterable])` creates a Set object where `iterable` is an array
+// or any other iterable object of values.
+let set = new Set([1, 2, 4, 2, 59, 9, 4, 9, 1]);
+
+console.log(set.size); // 5
+
+// Methods
+set.add(value) // Adds a new element with the given value to the Set.
+set.delete(value) // Deletes a specified value from the set.
+set.has(value) // Returns true if a specified value exists in the set and false otherwise.
+set.clear() // Clears the set.
+set.values() // Returns an Iterator of values in the set.
+
+
+///////////////////////////////////
+// 9. Concurrency, Promises and Async-await
 
 // Promises are objects that will eventually resolve or reject.
+new Promise((resolve, reject) => {
+    // Asynchronous work here
+    if (success) resolve(result);
+    else reject(Error("failure"));
+});
+
 function resolveAfter2Seconds() {
     return new Promise(resolve => {
         setTimeout(() => {
@@ -934,6 +1107,34 @@ function resolveAfter2Seconds() {
     });
 }
 
+// For Promises, you can either use `then` or `catch` to handle the success or failure.
+function asyncFunc(work) {
+    return new Promise((resolve, reject) => {
+        if (work === "")
+            reject(Error("Nothing"));
+        setTimeout(function () {
+            resolve(work);
+        }, 1000);
+    });
+}
+
+asyncFunc("Work 1") // Task 1
+    .then((result) => { // Handle Task 1
+        console.log(result);
+        return asyncFunc("Work 2"); // Task 2
+    }, (error) => {
+        console.log(error);
+    })
+    .then((result) => { // Handle Task 2
+        console.log(result);
+        console.log("End")
+    }, (error) => {
+        console.log(error);
+    });
+console.log("Start"); // This will be printed first
+
+
+// Although usually, `async-await` is used.
 // An async function is a function declared with the `async` keyword,
 // and the `await` keyword is permitted within it. The async and await keywords
 // enable asynchronous, promise-based behaviour to be written in a
@@ -1048,11 +1249,91 @@ setTimeout(concurrentPromise, 7000) // same as concurrentStart
 // wait again
 setTimeout(parallel, 10000) // truly parallel: after 1 second, logs "fast", then after 1 more second, "slow"
 
-// Classes
-// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes
+///////////////////////////////////
+// 10. Iterators and Generators
+
+// `Symbol.iterator` is the default iterator for an object.
+// Generator functions use a `*` to indicate they yield values
+function* idMaker() {
+    let index = 0;
+    while (index < 5)
+        yield index++;
+}
+var gen = idMaker();
+console.log(gen.next().value); // 0
+console.log(gen.next().value); // 1
+// ...
+console.log(gen.next().value); // null
+
+// We can exit and re-enter generator functions later.
+// Their variable bindings, or context, will be saved across re-entrances,
+// making them a very powerful tool for asynchronous programming,
+// especially when combined with Promises
+
+// We can also nest generator functions inside each other to create
+// more complex structures and pass them arguments while we are calling them.
+const arr = ['0', '1', '4', 'a', '9', 'c', '16'];
+const my_obj = {
+  [Symbol.iterator]: function*() {
+    for(let index of arr) {
+      yield `${index}`;
+    }
+  }
+};
+
+const all = [...my_obj] // Here you can replace the '[...my_obj]' with 'arr'.
+  .map(i => parseInt(i, 10))
+  .map(Math.sqrt)
+  .filter((i) => i < 5) // try changing the value of 5 to 4 see what happens.
+  .reduce((i, d) => i + d); // comment this line while you are changing the value of the line above
+
+console.log(all); // 10
+
 
 ///////////////////////////////////
-// 8. ES6 variable declarations
+// 11. Modules
+
+// lib/math.js
+// With the `export` keyword we point what functions and variables
+// we want to make available from our module
+export let sum = (x, y) => { return x + y; }
+export let pi = 3.14;
+
+// app.js
+// With the `import` keyword we import the functions and variables
+// we want to use from our module
+import * as math from "lib/math"
+console.log(`2p = + ${math.sum(math.pi, math.pi)}`)
+
+// ES6 supports modules officially. However, some browsers do not support
+// modules natively yet. That's what bundlers (builders) such as
+// Webpack or Browserify do.
+
+
+///////////////////////////////////
+// 12. Strict Mode
+/* JavaScript's strict mode, introduced in ECMAScript 5, is a way to opt in to a restricted variant of JavaScript, thereby implicitly opting-out of "sloppy mode". Strict mode isn't just a subset: it intentionally has different semantics from normal code. Browsers not supporting strict mode will run strict mode code with different behavior from browsers that do, so don't rely on strict mode without feature-testing for support for the relevant aspects of strict mode. Strict mode code and non-strict mode code can coexist, so scripts can opt into strict mode incrementally.
+
+Strict mode makes several changes to normal JavaScript semantics:
+
+    Eliminates some JavaScript silent errors by changing them to throw errors.
+    Fixes mistakes that make it difficult for JavaScript engines to perform optimizations: strict mode code can sometimes be made to run faster than identical code that's not strict mode.
+    Prohibits some syntax likely to be defined in future versions of ECMAScript.
+ */
+// To invoke strict mode for an entire script, put the exact statement "use strict"; (or 'use strict';) before any other statements.
+'use strict';
+
+function strict() {
+    // Function-level strict mode syntax
+    'use strict';
+    function nested() { return 'And so am I!'; }
+    return "Hi!  I'm a strict mode function!  " + nested();
+}
+function notStrict() { return "I'm not strict."; }
+
+
+///////////////////////////////////
+// Annex 1. ES6 variable declarations
 
 // The `let` keyword allows you to define variables in a lexical scope,
 // as opposed to a block scope like the `var` keyword does.
@@ -1110,7 +1391,7 @@ pi = 4.13; // You cannot do this.
 
 
 ///////////////////////////////////
-// 9. JavaScript and the DOM
+// Annex 2. JavaScript and the DOM
 // JavaScript can manipulate the DOM when used in conjunction with HTML
 document.body.innerHTML = "<h1>Hey look at me hacking a website</h1>";
 
