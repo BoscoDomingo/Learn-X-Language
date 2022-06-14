@@ -131,11 +131,11 @@ null === undefined; // = false
 ///////////////////////////////////
 // 2. Variables, Arrays and Objects
 
-// Variables are declared with the `var` keyword. JavaScript is dynamically
-// typed, so you don't need to specify type. Assignment uses a single `=`
-// character.
+// Variables used to be declared with the `var` keyword.
+// JavaScript is dynamically typed, so you don't need
+// to specify type. Assignment uses a single `=` character.
 // NOTE: This changes greatly in ES6. Scroll down to that section to see more.
-// TL;DR `var` is no longer the preferred way
+// TL;DR `var` is no longer the preferred way, `let` and `const` are.
 var someVar = 5;
 
 // If you leave the `var` keyword off, you won't get an error...
@@ -145,7 +145,7 @@ someOtherVar = 10;
 // you defined it in.
 
 // Variables declared without being assigned to are set to `undefined`.
-var someThirdVar; // = undefined
+let someThirdVar; // = undefined
 
 // If you want to declare a couple of variables, then you could use a comma
 // separator
@@ -163,6 +163,7 @@ someVar *= 10; // now someVar is 100
 someVar++; // now someVar is 101
 someVar--; // back to 100
 
+/* Arrays */
 // Arrays are ordered lists of values, of any type.
 let myArrayFromFunction = new Array() //Could also include the number of starting values
 let myArray = ["Hello", 45, true];
@@ -182,10 +183,6 @@ myArray.length; // = 4
 const a = ['dog', 'cat', 'hen'];
 a[100] = 'fox';
 a.length; // 101, when it has 4 elements
-
-
-// Add/Modify at specific index
-myArray[3] = "Hello";
 
 // Array operations: Add and remove element from front or back end of an array
 myArray.unshift(3); // Add as the first element
@@ -217,6 +214,44 @@ let person = []; //empty array
 person["name"] = "John";
 person["age"] = 46;
 
+// Array Destructuring
+// Useful to grab specific values from a certain point
+let array = ['1', '2', '3'];
+let [one, two, three] = array;
+
+console.log(one); // 1
+console.log(two); // 2
+console.log(three); // 3
+
+let a = () => {
+    return [1, 2, 3];
+};
+
+[one, , three] = a();
+
+console.log(one); // 1
+console.log(three); // 3
+
+let a, b, c = 4, d = 8;
+
+[a, b = 6] = [2];
+console.log(a); // 2
+console.log(b); // 6
+
+[a = 6, b] = [2];
+console.log(a); // 2
+console.log(b); // undefined
+
+[a = 3, ...b] = [2, 3, 4, 5];
+console.log(a); // 2
+console.log(b); // [3, 4, 5]
+
+// It can be extremely useful to swap values out too
+[c, d] = [d, c];
+console.log(c); // 8
+console.log(d); // 4
+
+/* Objects */
 // JavaScript's objects are equivalent to "dictionaries" or "maps" in other
 // languages: an unordered collection of key-value pairs.
 let emptyObj = {}
@@ -244,6 +279,89 @@ myObj.myThirdKey = true;
 
 // If you try to access a value that's not yet set, you'll get undefined.
 myObj.myFourthKey; // = undefined
+
+// Computed Property names
+// With ES6, you can now use computed property names. Using the square bracket
+// notation [], we can use an expression for a property name, e.g.
+// concatenating strings.
+let prop = 'name';
+
+let user = {
+    [prop]: 'Jack',
+};
+console.log(user.name); // Jack
+
+var i = 0;
+var a = {
+    ['foo' + ++i]: i,
+    ['foo' + ++i]: i,
+    ['foo' + ++i]: i
+};
+
+console.log(a.foo1); // 1
+console.log(a.foo2); // 2
+console.log(a.foo3); // 3
+
+// Object.assign() can be used to create new objects from others
+// The first parameter is the target object you want to apply new properties to.
+// Every parameter after the first will be used as sources for the target.
+// There are no limitations on the number of source parameters.
+// Order is important since properties in the second parameter will be overridden
+// by properties of the same name in third parameter, and so on.
+let person = {
+    name: 'Jack',
+    age: 18,
+    sex: 'male'
+};
+let student = {
+    name: 'Bob',
+    age: 20,
+    xp: '2'
+};
+
+let newStudent = Object.assign({}, person, student);
+
+console.log(newStudent.name); // Bob
+console.log(newStudent.age); // 20
+console.log(newStudent.sex); // male
+console.log(newStudent.xp); // 2
+
+// This can be leveraged to create copies of objects instead
+// of references
+let originalObject = {
+    property1,
+    property2
+}
+let referenceToOriginal = originalObject;
+let copyOfOriginal = Object.assign({}, originalObject);
+
+//Object Destructuring
+let obj = { h: 100, s: true };
+let { h, s } = obj;
+
+console.log(h); // 100
+console.log(s); // true
+
+let a, b;
+({ a, b } = { a: 'Hello ', b: 'Jack' }); // The () with a semicolon (;) at the end
+// are mandatory when destructuring without a declaration.
+let { a, b } = { a: 'Hello ', b: 'Jack' }; //Alternative
+
+// Assign new variable names
+var o = { h: 42, s: true };
+var { h: foo, s: bar } = o;
+
+console.log(h); // Error
+console.log(o.h); // 42
+console.log(foo); // 42
+
+// You can also assign default values to variables,
+// in case the value unpacked from the object is undefined.
+obj = { id: 42, name: "Jack" };
+let { id = 10, age = 20 } = obj;
+
+console.log(id); // 42
+console.log(age); // 20
 
 ///////////////////////////////////
 // 3. Logic and Control Structures
@@ -422,7 +540,6 @@ clearInterval()
 
 // Functions have access to an additional variable inside their body called `arguments`,
 // which is an array-like object holding all of the values passed to the function.
-
 function add() {
     let sum = 0;
     for (const item of arguments) {
@@ -433,7 +550,7 @@ function add() {
 
 add(2, 3, 4, 5); // 14
 
-// Since ES6, a new way is to use the rest operator (...). It will include within `args`
+// Since ES6, a new way is to use the Rest/Spread operator (...). It will include within `args`
 // the entire list of uncaptured arguments that the function was called with
 function avg(...args) {
     let sum = 0;
@@ -445,7 +562,11 @@ function avg(...args) {
 
 avg(2, 3, 4, 5); // 3.5
 
-
+// The ...args parameter is called a rest parameter. It takes all the "extra" arguments
+// passed to the function.
+// Only the last parameter of a function may be marked as a rest parameter.
+// If there are no extra arguments, the rest parameter will simply be an empty array;
+// the rest parameter will NEVER be undefined.
 
 // Function objects don't even have to be declared with a name - you can write
 // an anonymous function definition directly into the arguments of another.
@@ -507,7 +628,6 @@ sayHelloInFiveSeconds("Adam"); // will open a popup with "Hello, Adam!" in 5s
 
 ///////////////////////////////////
 // 5. More about Objects; Constructors and Prototypes
-
 // Objects can contain functions.
 let myObj = {
     myFunc: function () {
@@ -542,7 +662,6 @@ myObj.myOtherFunc(); // = "HELLO WORLD!"
 
 // We can also specify a context for a function to execute in when we invoke it
 // using `call` or `apply`.
-
 let anotherFunc = function (s) {
     return this.myString + s;
 };
@@ -560,22 +679,18 @@ s.lastNameInCaps(); // WILLISON
 
 // The `apply` function is nearly identical, but takes an array for an argument
 // list.
-
 anotherFunc.apply(myObj, [" And Hello Sun!"]); // = "Hello World! And Hello Sun!"
 
 // This is useful when working with a function that accepts a sequence of
 // arguments and you want to pass an array.
-
 Math.min(42, 6, 27); // = 6
 Math.min([42, 6, 27]); // = NaN (uh-oh!)
 Math.min.apply(Math, [42, 6, 27]); // = 6
 // You can achieve the same result using the spread operator in the function call.
-// More on this on the ES6 section
 Math.min(...[42, 6, 27])
 
 // But, `call` and `apply` are only temporary. When we want it to stick, we can
 // use `bind`.
-
 let boundFunc = anotherFunc.bind(myObj);
 boundFunc(" And Hello Saturn!"); // = "Hello World! And Hello Saturn!"
 
@@ -588,7 +703,6 @@ doubler(8); // = 16
 // When you call a function with the `new` keyword, a new object is created, and
 // made available to the function via the `this` keyword. Functions designed to be
 // called like that are called constructors.
-
 let MyConstructor = function () {
     this.myNumber = 5; // notice there's no `return`
 };
@@ -737,8 +851,8 @@ if (Object.create === undefined) { // don't overwrite it if it exists
         return new Constructor();
     };
 }
-
-/* Useful Functions */
+///////////////////////////////////
+// 6. Useful Functions
 typeof (5) // Number
 
 // You can reliably test for NaN using the built-in Number.isNaN() function, which behaves just as its name implies:
@@ -808,13 +922,10 @@ function strict() {
 }
 function notStrict() { return "I'm not strict."; }
 
-// Async-await
+///////////////////////////////////
+// 7. Concurrency, Promises and Async-await
 
-// An async function is a function declared with the `async` keyword,
-// and the `await` keyword is permitted within it. The async and await keywords
-// enable asynchronous, promise-based behaviour to be written in a
-// cleaner style, avoiding the need to explicitly configure promise chains.
-
+// Promises are objects that will eventually resolve or reject.
 function resolveAfter2Seconds() {
     return new Promise(resolve => {
         setTimeout(() => {
@@ -823,6 +934,10 @@ function resolveAfter2Seconds() {
     });
 }
 
+// An async function is a function declared with the `async` keyword,
+// and the `await` keyword is permitted within it. The async and await keywords
+// enable asynchronous, promise-based behaviour to be written in a
+// cleaner style, avoiding the need to explicitly configure promise chains.
 async function asyncCall() {
     console.log('calling');
     const result = await resolveAfter2Seconds();
@@ -936,8 +1051,8 @@ setTimeout(parallel, 10000) // truly parallel: after 1 second, logs "fast", then
 // Classes
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes
 
-
-// ES6 Additions
+///////////////////////////////////
+// 8. ES6 variable declarations
 
 // The `let` keyword allows you to define variables in a lexical scope,
 // as opposed to a block scope like the `var` keyword does.
@@ -994,120 +1109,8 @@ pi = 4.13; // You cannot do this.
 // which means that those declarations do not move to the top of the current execution context.
 
 
-// Computed Property names
-// With ES6, you can now use computed property names. Using the square bracket
-// notation [], we can use an expression for a property name, e.g.
-// concatenating strings.
-let prop = 'name';
-
-let user = {
-    [prop]: 'Jack',
-};
-console.log(user.name); // Jack
-
-var i = 0;
-var a = {
-    ['foo' + ++i]: i,
-    ['foo' + ++i]: i,
-    ['foo' + ++i]: i
-};
-
-console.log(a.foo1); // 1
-console.log(a.foo2); // 2
-console.log(a.foo3); // 3
-
-// Object.assign() to create new objects from others
-// The first parameter is the target object you want to apply new properties to.
-// Every parameter after the first will be used as sources for the target.
-// There are no limitations on the number of source parameters.
-// Order is important since properties in the second parameter will be overridden
-// by properties of the same name in third parameter, and so on.
-let person = {
-    name: 'Jack',
-    age: 18,
-    sex: 'male'
-};
-let student = {
-    name: 'Bob',
-    age: 20,
-    xp: '2'
-};
-
-let newStudent = Object.assign({}, person, student);
-
-console.log(newStudent.name); // Bob
-console.log(newStudent.age); // 20
-console.log(newStudent.sex); // male
-console.log(newStudent.xp); // 2
-
-// This can be leveraged to create copies of objects instead
-// of references
-let originalObject = {
-    property1,
-    property2
-}
-let referenceToOriginal = originalObject;
-let copyOfOriginal = Object.assign({}, originalObject);
-
-// Array Destructuring
-let array = ['1', '2', '3'];
-let [one, two, three] = array;
-
-console.log(one); // 1
-console.log(two); // 2
-console.log(three); // 3
-
-let a = () => {
-    return [1, 2, 3];
-};
-
-[one, , three] = a();
-
-console.log(one); // 1
-console.log(three); // 2
-
-let a, b, c = 4, d = 8;
-
-[a, b = 6] = [2];
-console.log(a); // 2
-console.log(b); // 6
-
-// It can be extremely useful to swap values out too
-[c, d] = [d, c];
-console.log(c); // 8
-console.log(d); // 4
-
-//Object Destructuring
-let obj = { h: 100, s: true };
-let { h, s } = obj;
-
-console.log(h); // 100
-console.log(s); // true
-
-let a, b;
-({ a, b } = { a: 'Hello ', b: 'Jack' }); // The () with a semicolon (;) at the end
-// are mandatory when destructuring without a declaration.
-let { a, b } = { a: 'Hello ', b: 'Jack' }; //Alternative
-
-// Assign new variable names
-var o = { h: 42, s: true };
-var { h: foo, s: bar } = o;
-
-console.log(h); // Error
-console.log(o.h); // 42
-console.log(foo); // 42
-
-// You can also assign default values to variables,
-// in case the value unpacked from the object is undefined.
-obj = { id: 42, name: "Jack" };
-let { id = 10, age = 20 } = obj;
-
-console.log(id); // 42
-console.log(age); // 20
-
-
-
-// JavaScript and the DOM
+///////////////////////////////////
+// 9. JavaScript and the DOM
 // JavaScript can manipulate the DOM when used in conjunction with HTML
 document.body.innerHTML = "<h1>Hey look at me hacking a website</h1>";
 
