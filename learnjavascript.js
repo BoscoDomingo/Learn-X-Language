@@ -360,6 +360,47 @@ function myFunctionFixed() {
     );
 }
 
+// A new syntax was introduced in ES6 known as "lambda syntax" or "arrow functions".
+// This allows functions to be defined in a lexical scope like with variables
+// defined by const and let.
+
+const isEven = (number) => {
+    return number % 2 === 0;
+};
+
+isEven(7); // false
+
+// The "equivalent" of this function in the traditional syntax would look like this:
+
+function isEven(number) {
+    return number % 2 === 0;
+};
+
+// A function definedusing the lambda syntax cannnot be called before
+// the definition. The following is an example of invalid usage:
+
+add(1, 8); // Error
+
+const add = (firstNumber, secondNumber) => {
+    return firstNumber + secondNumber;
+};
+
+// Arrow functions can be reduced considerably when they are one-liners and have no arguments:
+const greet = name => `Welcome ${name}`
+console.log(greet("User")) // Welcome User
+
+// This new syntax also allows for anonymous functions:
+const arr = [2, 3, 7, 8];
+
+arr.map(v => v * 2); // [4, 6, 14, 16]
+
+// Default values in parameters
+// Default value expressions are evaluated at function call time from left to right. This also means that default expressions can use the values of previously-filled parameters.
+const test = (a, b = 3, c = a * b) => {
+    return a + b + c;
+}
+console.log(test(5)); // 23
+
 // JavaScript functions are first class objects, so they can be reassigned to
 // different variable names and passed to other functions as arguments - for
 // example, when supplying an event handler:
@@ -392,7 +433,7 @@ function add() {
 
 add(2, 3, 4, 5); // 14
 
-// Another way is to use the rest operator (...). It will include within `args`
+// Since ES6, a new way is to use the rest operator (...). It will include within `args`
 // the entire list of uncaptured arguments that the function was called with
 function avg(...args) {
     let sum = 0;
@@ -529,6 +570,7 @@ Math.min(42, 6, 27); // = 6
 Math.min([42, 6, 27]); // = NaN (uh-oh!)
 Math.min.apply(Math, [42, 6, 27]); // = 6
 // You can achieve the same result using the spread operator in the function call.
+// More on this on the ES6 section
 Math.min(...[42, 6, 27])
 
 // But, `call` and `apply` are only temporary. When we want it to stick, we can
@@ -917,12 +959,11 @@ for (var myVarVariable = 0; myVarVariable < 5; myVarVariable++) {
 }
 // myVarVariable *is* visible out here
 
-// myLetVariable is *NOT* visible out here
+// myLetVariable *is NOT* visible out here
 for (let myLetVariable = 0; myLetVariable < 5; myLetVariable++) {
     // myLetVariable is only visible in here
 }
-// myLetVariable is *NOT* visible out here
-
+// myLetVariable *is NOT* visible out here
 
 function varTest() {
     var x = 1;
@@ -952,47 +993,6 @@ pi = 4.13; // You cannot do this.
 // `let` and `const` are not subject to Variable Hoisting,
 // which means that those declarations do not move to the top of the current execution context.
 
-// Default values in parameters
-// Default value expressions are evaluated at function call time from left to right. This also means that default expressions can use the values of previously-filled parameters.
-const test = (a, b = 3, c = a * b) => {
-    return a + b + c;
-}
-console.log(test(5)); // 23
-
-// There is a new syntax for functions in ES6 known as "lambda syntax" or "arrow functions".
-// This allows functions to be defined in a lexical scope like with variables
-// defined by const and let.
-
-const isEven = (number) => {
-    return number % 2 === 0;
-};
-
-isEven(7); // false
-
-// The "equivalent" of this function in the traditional syntax would look like this:
-
-function isEven(number) {
-    return number % 2 === 0;
-};
-
-// I put the word "equivalent" in double quotes because a function defined
-// using the lambda syntax cannnot be called before the definition.
-// The following is an example of invalid usage:
-
-add(1, 8); // Error
-
-const add = (firstNumber, secondNumber) => {
-    return firstNumber + secondNumber;
-};
-
-// Arrow functions can be reduced considerably when they are one-liners and have no arguments:
-const greet = name => `Welcome ${name}`
-console.log(greet("User")) // Welcome User
-
-// This new syntax also allows for anonymous functions:
-const arr = [2, 3, 7, 8];
-
-arr.map(v => v * 2); // [4, 6, 14, 16]
 
 // Computed Property names
 // With ES6, you can now use computed property names. Using the square bracket
@@ -1001,15 +1001,15 @@ arr.map(v => v * 2); // [4, 6, 14, 16]
 let prop = 'name';
 
 let user = {
-  [prop]: 'Jack',
+    [prop]: 'Jack',
 };
 console.log(user.name); // Jack
 
 var i = 0;
 var a = {
-  ['foo' + ++i]: i,
-  ['foo' + ++i]: i,
-  ['foo' + ++i]: i
+    ['foo' + ++i]: i,
+    ['foo' + ++i]: i,
+    ['foo' + ++i]: i
 };
 
 console.log(a.foo1); // 1
@@ -1078,20 +1078,20 @@ console.log(c); // 8
 console.log(d); // 4
 
 //Object Destructuring
-let obj = {h:100, s: true};
-let {h, s} = obj;
+let obj = { h: 100, s: true };
+let { h, s } = obj;
 
 console.log(h); // 100
 console.log(s); // true
 
-let a,b;
-({a, b} = {a: 'Hello ', b: 'Jack'}); // The () with a semicolon (;) at the end
+let a, b;
+({ a, b } = { a: 'Hello ', b: 'Jack' }); // The () with a semicolon (;) at the end
 // are mandatory when destructuring without a declaration.
-let {a, b} = {a: 'Hello ', b: 'Jack'}; //Alternative
+let { a, b } = { a: 'Hello ', b: 'Jack' }; //Alternative
 
 // Assign new variable names
-var o = {h: 42, s: true};
-var {h: foo, s: bar} = o;
+var o = { h: 42, s: true };
+var { h: foo, s: bar } = o;
 
 console.log(h); // Error
 console.log(o.h); // 42
@@ -1099,8 +1099,8 @@ console.log(foo); // 42
 
 // You can also assign default values to variables,
 // in case the value unpacked from the object is undefined.
-obj = {id: 42, name: "Jack"};
-let {id = 10, age = 20} = obj;
+obj = { id: 42, name: "Jack" };
+let { id = 10, age = 20 } = obj;
 
 console.log(id); // 42
 console.log(age); // 20
