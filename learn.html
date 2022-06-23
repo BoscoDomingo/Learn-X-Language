@@ -1,4 +1,3 @@
-
 <!-- Comments are enclosed like this line! -->
 
 <!--
@@ -15,24 +14,27 @@
 
 
 <!doctype html>
-	<html>
-		<head>
-			<title>My Site</title>
-		</head>
-		<body>
-			<h1>Hello, world!</h1>
-			<a href="http://codepen.io/anon/pen/xwjLbZ">
-				Come look at what this shows
-			</a>
-			<p>This is a paragraph.</p>
-			<p>This is another paragraph.</p>
-			<ul>
-				<li>This is an item in a non-enumerated list (bullet list)</li>
-				<li>This is another item</li>
-				<li>And this is the last item on the list</li>
-			</ul>
-		</body>
-	</html>
+<html>
+
+<head>
+    <title>My Site</title>
+</head>
+
+<body>
+    <h1>Hello, world!</h1>
+    <a href="http://codepen.io/anon/pen/xwjLbZ">
+        Come look at what this shows
+    </a>
+    <p>This is a paragraph.</p>
+    <p>This is another paragraph.</p>
+    <ul>
+        <li>This is an item in a non-enumerated list (bullet list)</li>
+        <li>This is another item</li>
+        <li>And this is the last item on the list</li>
+    </ul>
+</body>
+
+</html>
 
 <!--
 	An HTML file always starts by indicating to the browser that the page is HTML.
@@ -43,6 +45,7 @@
 <html>
 
 <!-- that will be closed at the end of the file with </html>. -->
+
 </html>
 
 <!-- Nothing should appear after this final tag. -->
@@ -56,11 +59,11 @@
 -->
 
 <head>
-	<!--
+    <!--
 		The tag <title> indicates to the browser the title to show in browser
 		window's title bar and tab name.
 	-->
-	<title>My Site</title>
+    <title>My Site</title>
     <!-- Other attributes can be the favicon, CSS Stylesheets, JS scripts... -->
 </head>
 
@@ -138,46 +141,113 @@
 	The source of the image is indicated using the attribute src=""
 	The source can be an URL or even path to a file on your computer.
 -->
-<img src="http://i.imgur.com/XWG0O.gif"/>
+<img src="http://i.imgur.com/XWG0O.gif" />
 
 <!-- It is also possible to create a table. -->
 
 <!-- We open a <table> element. -->
 <table>
 
-	<!-- <tr> allows us to create a row. -->
-	<tr>
+    <!-- <tr> allows us to create a row. -->
+    <tr>
 
-		<!-- <th> allows us to give a title to a table column. -->
-		<th>First Header</th>
-		<th colspan="2">Second Header occupying 2 cells</th>
-	</tr>
+        <!-- <th> allows us to give a title to a table column. -->
+        <th>First Header</th>
+        <th colspan="2">Second Header occupying 2 cells</th>
+    </tr>
 
-	<tr>
+    <tr>
 
-		<!-- <td> allows us to create a table cell. -->
-		<td>first row, first column</td>
-		<td rowspan="4">first row, second column, occupying 4 rows</td>
-	</tr>
+        <!-- <td> allows us to create a table cell. -->
+        <td>first row, first column</td>
+        <td rowspan="4">first row, second column, occupying 4 rows</td>
+    </tr>
 
-	<tr>
-		<td>second row, first column</td>
-		<td>second row, second column</td>
-	</tr>
+    <tr>
+        <td>second row, first column</td>
+        <td>second row, second column</td>
+    </tr>
 </table>
 
 <!-- Forms are quite common in HTML. They can have multiple inputs and labels as well as a submit button -->
 <!-- <br> is used to indicate a line break -->
 <form action="submitFunction" method="post">
-    <input type="checkbox" name="checkbox1" id="checkbox1">This is a sample checkbox<br>
+    <!-- required forces an input to be filled in -->
+    <input type="text" name="someText" id="textInput1" placeholder="Your name" required>
+    <textarea name="someTextArea" id="someTextArea" cols="30" rows="10" placeholder="This is a text area"></textarea>
+    <label for="checkbox2">This is a sample checkbox to the left</label>
+    <input type="checkbox" name="checkbox1" id="checkbox1"><br>
+    <input type="checkbox" name="checkbox2" id="checkbox2">
+    <label for="checkbox2">This is another sample checkbox to the right</label><br>
     <!-- The "for" attribute should equal the id of the target input -->
     <label for="email1">Please enter your email</label>
     <input type="email" name="email" id="email1" placeholder="email@example.com"><br>
-    <!-- this is one way to do it -->
-    <input type="submit" value="Submit"><br>
+    <!-- For radio buttons to work, they must have the same name -->
+    <input type="radio" name="title" id="mr">
+    <label for="mr">Mr</label><br>
+    <input type="radio" name="title" id="ms">
+    <label for="ms">Ms</label><br>
+    <input type="radio" name="title" id="mrs">
+    <label for="mrs">Mrs</label>
+
+    <!-- select allows for choosing from a drop-down menu -->
+    <select>
+        <option>S</option>
+        <option>M</option>
+        <option>L</option>
+        <option>XL</option>
+    </select>
+    <!-- this is the preferred way to do it -->
+    <button type="submit">Submit</button><br>
     <!-- This is equivalent -->
-    <input type="button" value="Submit"><br>
+    <input type="submit" value="Submit"><br>
+    <!-- As well as this, which relies on a JavaScript script -->
+    <input type="button" value="Submit" onclick="submit()"><br>
+
+    <input type="reset" value="Clear the form">
 </form>
 
 <!-- HTML elements have attributes, which describe characteristics
-    of the element, such as the ones seen above like id or type-->
+    of the element, such as the ones seen above like id or type
+    `id` is a particular one since it must be unique across the page-->
+
+
+<!-- To use special characters (like <,>,",') we must escape them using
+    character references with `&` and `;` -->
+<!-- 5 < 6 -->
+<p>5 &lt; 6</p>
+<!-- 6 > 5 -->
+<p>6 &gt; 5</p>
+<!-- 6 <= 6 -->
+<p>6 &leq; 6</p>
+<!-- &, ', " -->
+<p>&amp;, &apos;, &quot;</p>
+<!-- Non-breaking spaces keep the text together and can be used
+        to avoid browsers from truncating spaces in a page -->
+<b>Speed:</b> 42&nbsp;mph
+
+<!-- Multimedia -->
+
+<!-- For audio, the text will only be shown if the source can't
+be played, the `controls` attribute allows controls to be
+shown and loop for it to be looped -->
+<audio src="audio.mp3" controls loop> Audio not supported </audio>
+<!-- To maximise compatibility, multiple sources can be specified.
+The browser will attempt each one in order -->
+<audio controls>
+    <source src="http://www.sololearn.com/uploads/audio.mp3" type="audio/mpeg">
+    <source src="http://www.sololearn.com/uploads/audio.ogg" type="audio/ogg">
+    Audio not supported
+</audio>
+
+<!-- For video, the story is very similar, but you can specify
+height and width among other things (video maintains aspect ratio regardless
+of specified dimensions) -->
+<video controls height="1080px" width="1920px">
+    <source src="http://www.sololearn.com/uploads/video.mp4" type="video/mp4">
+    <source src="http://www.sololearn.com/uploads/video.ogg" type="video/ogg">
+    Video is not supported by your browser
+</video>
+
+<!-- To embed videos, you can use the iframe -->
+<iframe width="560" height="315" src="https://www.youtube.com/watch?v=dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
