@@ -6,6 +6,10 @@
 /* CSS uses rules to style elements. A rule is a group of style declarations.
 Style declarations have the syntax `property: value;`*/
 
+/* CSS styles set on parent elements are inherited by the child elements,
+although not all styles are inherited, like the width and other similar
+layout properties. */
+
 /* Style declarations can be applied directly on HTML elements
 via the `style` attribute */
 <p style="color:yellow; font-weight:bold">This text is yellow and bold</p>
@@ -28,19 +32,21 @@ Here is an example element:
 <div class='class1 class2' id='anID' attr='value' otherAttr='en-us foo bar' />
 */
 
-/* You can target it using one of its CSS classes */
+/* You can target it using its element type (even target multiple elements!) */
+div {}
+
+p, h1 {}
+
+/* or using one of its CSS classes using "." */
 .class1 {}
 
 /* or both classes! */
 .class1.class2 {}
 
-/* or its name */
-div {}
-
-/* or its id */
+/* or its id using "#"*/
 #anID {}
 
-/* or using the fact that it has an attribute! */
+/* or using the fact that it has an attribute with "[]" */
 [attr] {
     font-size: smaller;
 }
@@ -218,8 +224,8 @@ selector {
     font-family: "Courier New", Trebuchet, Arial, sans-serif;
 }
 
-< !-- You need to include the css file in your page's <head>. This is the
- recommended method. Refer to http: //stackoverflow.com/questions/8284365 -->
+/* You need to include the css file in your page's <head>. This is the
+ recommended method. Refer to http: //stackoverflow.com/questions/8284365 */
 
 <link rel='stylesheet' type='text/css' href='path/to/style.css'>< !-- You can also include some CSS inline in your markup. --><style>a {
     color: purple;
