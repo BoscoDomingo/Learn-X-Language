@@ -13,7 +13,6 @@ layout properties. */
 /* Style declarations can be applied directly on HTML elements
 via the `style` attribute */
 <p style="color:yellow; font-weight:bold">This text is yellow and bold</p>
-
 /* But this is extremely impractical, which is where selectors come in */
 
 /* ####################
@@ -35,7 +34,8 @@ Here is an example element:
 /* You can target it using its element type (even target multiple elements!) */
 div {}
 
-p, h1 {}
+p,
+h1 {}
 
 /* or using one of its CSS classes using "." */
 .class1 {}
@@ -147,6 +147,66 @@ selector1,
 selector2 {}
 
 /* ####################
+   ## THE BOX MODEL
+   #################### */
+/* It's important to understand how HTML and CSS
+approach elements and layout. Everything is a box, and
+from inside-out: Content -> Padding -> Border -> Margin.
+
+The content box is the area where the content is displayed.
+The padding box is the space around the content.
+The border box surrounds the padding.
+The margin box defines the space between this box and other elements.
+*/
+
+/* To alter them, there's multiple ways to establish the values */
+selector {
+    /* Top, right, bottom, left */
+    margin: 5px 5px 10px 10px;
+    /* All 4 at once shorthand */
+    padding: 20px;
+    /* Vertical and lateral in 2 values */
+    padding: 20px 30px;
+    /* Top, left & right, bottom */
+    margin: 5px 20px 10px;
+    /* Individual values */
+    margin-top: 30px;
+    margin-left: 1px;
+    /* `auto` horizontally centres the element
+    within its container */
+    margin: auto;
+}
+
+/* In the Standard Box Model, the height and width attributes
+define the size of the content box. Any padding and border is
+then added to that width and height to get the total size of the box.
+The margin is NOT counted towards an element's height and width!
+*/
+/* Width will be 220px because of the padding and border */
+p {
+    margin: 5px 10px;
+    padding: 4px 7px;
+    width: 200px;
+    border: 3px solid black;
+}
+
+/* In the Alternative Box Model, the padding and border
+are already added into the `height` and `width` attributes,
+thus removing the need to do calculations.
+Activated by using `box-sizing: border-box;`.
+*/
+/* Width will be 200px, content will shrink */
+p {
+    margin: 5px 10px 5px 10px;
+    padding: 4px 7px 4px 7px;
+    width: 200px;
+    box-sizing: border-box;
+    border: 3px solid black;
+}
+
+
+
+/* ####################
    ## PROPERTIES
    #################### */
 
@@ -155,83 +215,122 @@ selector {
     /* Units of length can be absolute or relative. */
 
     /* Relative units */
-    width: 50%;
+
     /* percentage of parent element width */
+    width: 50%;
+    /* multiples of element's original font-size, by default 1em = 16px */
     font-size: 2em;
-    /* multiples of element's original font-size */
-    font-size: 2rem;
     /* or the root element's font-size */
-    font-size: 2vw;
+    font-size: 2rem;
     /* multiples of 1% of the viewport's width (CSS 3) */
-    font-size: 2vh;
+    font-size: 2vw;
     /* or its height */
-    font-size: 2vmin;
+    font-size: 2vh;
     /* whichever of a vh or a vw is smaller */
-    font-size: 2vmax;
+    font-size: 2vmin;
     /* or greater */
+    font-size: 2vmax;
 
     /* Absolute units */
-    width: 200px;
     /* pixels */
-    font-size: 20pt;
+    width: 200px;
     /* points */
-    width: 5cm;
+    font-size: 20pt;
     /* centimeters */
-    min-width: 50mm;
+    width: 5cm;
     /* millimeters */
-    max-width: 5in;
+    min-width: 50mm;
     /* inches */
+    max-width: 5in;
 
     /* Colors */
-    color: #F6E;
     /* short hex format */
-    color: #FF66EE;
+    color: #F6E;
     /* long hex format */
-    color: tomato;
+    color: #FF66EE;
     /* a named color */
-    color: rgb(255, 255, 255);
+    color: tomato;
     /* as rgb values */
-    color: rgb(10%, 20%, 50%);
+    color: rgb(255, 255, 255);
     /* as rgb percentages */
-    color: rgba(255, 0, 0, 0.3);
+    color: rgb(10%, 20%, 50%);
     /* as rgba values (CSS 3) Note: 0 <= a <= 1 */
-    color: transparent;
+    color: rgba(255, 0, 0, 0.3);
     /* equivalent to setting the alpha to 0 */
-    color: hsl(0, 100%, 50%);
+    color: transparent;
     /* as hsl percentages (CSS 3) */
-    color: hsla(0, 100%, 50%, 0.3);
+    color: hsl(0, 100%, 50%);
     /* as hsl percentages with alpha */
+    color: hsla(0, 100%, 50%, 0.3);
 
     /* Borders */
+    /* similar to how background-color is set */
     border-width: 5px;
     border-style: solid;
     border-color: red;
-    /* similar to how background-color is set */
-    border: 5px solid red;
     /* this is a short hand approach for the same */
-    border-radius: 20px;
+    border: 5px solid red;
     /* this is a CSS3 property */
+    border-radius: 20px;
 
     /* Images as backgrounds of elements */
-    background-image: url(/img-path/img.jpg);
     /* quotes inside url() optional */
+    background-image: url(/img-path/img.jpg);
 
     /* Fonts */
-    font-family: Arial;
     /* if the font family name has a space, it must be quoted */
-    font-family: "Courier New";
+    font-family: Arial;
     /* if the first one is not found, the browser uses the next, and so on */
+    font-family: "Courier New";
     font-family: "Courier New", Trebuchet, Arial, sans-serif;
+    /* There are only a certain number of fonts that are generally available across all systems.
+    These are called "web safe fonts" and include:
+    Arial, Courier New, Georgia, Times New Roman, Trebuchet MS, Verdana. */
+
+    /* Font style & weight, line height */
+    font-style: italic;
+    /* 100 = thin, 400 = normal, 700 = bold, 900 = thick */
+    font-weight: 300;
+    font-weight: bold;
+    line-height: 1.76;
+    /* 1.76 times the height of the font*/
+
+    /* Text alignment */
+    /* left, right, center, justify */
+    text-align: center;
+
+    /* Text transform */
+    text-transform: uppercase;
+    text-transform: capitalize;
+
+    /* Text decoration */
+    text-decoration: line-through;
+
+    /* Text shadow */
+    /* You can establish multiple, separating by commas */
+    /* Hor. offset, Vert. offset, blur and colour */
+    text-shadow: 3px 2px 3px red,
+        2px 2px 1px blue;
 }
 
-/* You need to include the css file in your page's <head>. This is the
- recommended method. Refer to http: //stackoverflow.com/questions/8284365 */
 
-<link rel='stylesheet' type='text/css' href='path/to/style.css'>< !-- You can also include some CSS inline in your markup. --><style>a {
+/* Using CSS */
+/* You need to include the CSS file in your page's <head>. This is the
+ recommended method. Refer to http://stackoverflow.com/questions/8284365 */
+
+<link rel='stylesheet' type='text/css' href='path/to/style.css'>
+
+/* You can also include some CSS inline in your HTML. */
+<style>a {
     color: purple;
 }
 
-</style>< !-- Or directly set CSS properties on the element. --><div style="border: 1px solid red;"></div>
+</style>
+/* Or directly set CSS properties on the element. */
+<div style="border: 1px solid red;"></div>
+/* Usually the more specific selector's rules
+are applied, but using `!important` this can be overriden */
+
 /* A */
 p.class1[attr='value']
 
@@ -246,18 +345,15 @@ p {}
 
 /* E */
 p {
+    /* This will be applied even if a
+    p element uses class1 or class2 */
     property: value !important;
 }
 
 <p style='/*F*/ property:value;' class='class1 class2' attr='value'>
 
-/* A rule that will be used on all devices */
-h1 {
-    font-size: 2em;
-    color: white;
-    background-color: black;
-}
-
+/* The `@media` operator is extremely useful to detect
+different device types, such as phones or tablets */
 /* change the h1 to use less ink on a printer */
 @media print {
     h1 {
