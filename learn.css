@@ -3,18 +3,28 @@
 /* ####################
    ## BASICS
    #################### */
-/* CSS uses rules to style elements. A rule is a group of style declarations.
-Style declarations have the syntax `property: value;`*/
+/* CSS uses rules to style elements. A rule is a group of style declarations. */
+/* Style declarations use the syntax: */
+property: value;
 
 /* CSS styles set on parent elements are inherited by the child elements,
 although not all styles are inherited, like the width and other similar
 layout properties. */
 
-/* Style declarations can be applied directly on HTML elements
-via the `style` attribute */
-<p style="color:yellow; font-weight:bold">This text is yellow and bold</p>
-/* But this is extremely impractical, which is where selectors come in */
+/* Using CSS */
+/* You need to include the CSS file in your page's <head>. This is the
+ recommended method. Refer to http://stackoverflow.com/questions/8284365 */
 
+<link rel='stylesheet' type='text/css' href='path/to/style.css'>
+
+/* You can also include some CSS inline in your HTML. */
+<style>a {
+    color: purple;
+}
+
+</style>
+/* Or directly set CSS properties on the element. */
+<div style="border: 1px solid red;"></div><p style="color:yellow; font-weight:bold">This text is yellow and bold</p>
 /* ####################
    ## SELECTORS
    #################### */
@@ -47,6 +57,7 @@ h1 {}
 #anID {}
 
 /* or using the fact that it has an attribute with "[]" */
+/* This applies to all elements with attribute attr */
 [attr] {
     font-size: smaller;
 }
@@ -54,6 +65,13 @@ h1 {}
 /* or that the attribute has a specific value */
 [attr='value'] {
     font-size: smaller;
+}
+
+/* This applies to inputs with type
+text or email */
+input[type='text'],
+input[type='email'] {
+    width: 90%;
 }
 
 /* starts with a value (CSS 3) */
@@ -99,8 +117,9 @@ div.some-parent.class-name {}
 /* or any sibling preceding it */
 .i-am-any-element-before~.this-element {}
 
-/* There are some selectors called pseudo classes that can be used to select an
-   element only when it is in a particular state */
+/* There are some selectors called pseudo selectors
+that can be used to select an element only when it
+is in a particular state */
 
 /* for example, when the cursor hovers over an element */
 selector:hover {}
@@ -205,6 +224,91 @@ p {
 }
 
 
+/* ####################
+   ## LAYOUT
+   #################### */
+/* Display */
+h1 {
+    display: block;
+}
+
+/* `block` elements span the entire width of their parent
+and start from a new line */
+/* `inline` elements are placed inside block elements
+and act similar to their content, sitting on the same line.
+Inline elements cannot contain block elements */
+/* `flex` allows elements to be arranged like rows and
+columns, taking up equal widths and heights by default,
+although this is configurable.
+This must be enabled in the parent element */
+div {
+    display: flex;
+    flex: 1;
+}
+
+div.special {
+    flex: 10;
+}
+
+/* Float */
+/* Determines where an element will align to
+while allowing others to be inline with it */
+/* Image will be right-aligned, and text can
+be present on the left */
+img {
+    float: right;
+    margin-right: 10px;
+}
+
+/* Position */
+/* By default, all elements have the position:static */
+/* `relative` will change position from what
+would be the normal spot.
+The content of relatively positioned elements
+can be moved and overlap other elements,
+but the reserved space for the element is still
+preserved in the normal flow. */
+/* The properties `top`, `right`, `bottom`, and `left`
+can be used */
+/* This element will be shifted 30px away from
+its usual bottom */
+.relativeClass {
+    position: relative;
+    bottom: 30px;
+    background-color: orange;
+}
+
+/* `absolute` is removed from the normal flow of
+a page, and is useful for pop-ups, alerts, panels... */
+/* Same properties can be used, and the dimensions
+of the first positioned parent will be used as reference */
+/* This element will be positioned away from the top and
+left of its parent */
+.absoluteClass {
+    position: absolute;
+    top: 30px;
+    left: 20px;
+    background-color: orange;
+}
+
+/* `fixed` makes an element stay in the same position
+of the viewport, even when scrolling */
+.fixedClass {
+    position: fixed;
+    bottom: 30px;
+    background-color: orange;
+}
+
+/* `z-index` can be used to deal with
+overlapping elements. The lower the value, the
+further back an item is sent */
+.absoluteClassInBackground {
+    position: absolute;
+    top: 30px;
+    left: 20px;
+    background-color: orange;
+    z-index: 1;
+}
 
 /* ####################
    ## PROPERTIES
@@ -215,7 +319,6 @@ selector {
     /* Units of length can be absolute or relative. */
 
     /* Relative units */
-
     /* percentage of parent element width */
     width: 50%;
     /* multiples of element's original font-size, by default 1em = 16px */
@@ -262,20 +365,35 @@ selector {
     color: hsl(0, 100%, 50%);
     /* as hsl percentages with alpha */
     color: hsla(0, 100%, 50%, 0.3);
+    /* There's also background colour */
+    background-color: aliceblue;
 
     /* Borders */
-    /* similar to how background-color is set */
+    /* Borders use 3 values: width, style and colour.
+    Style can be: solid, dotted, dashed, double, groove, ridge, inset, outset. */
+    /* this is a short hand approach */
+    border: 5px solid blue;
     border-width: 5px;
     border-style: solid;
+    border-style: solid dotted ridge outset;
     border-color: red;
-    /* this is a short hand approach for the same */
-    border: 5px solid red;
-    /* this is a CSS3 property */
-    border-radius: 20px;
+    /* This can be set to individual sides just like padding and margin */
+    border-bottom: 5px dotted yellow;
+    /* Borders can also have a radius (CSS3) */
+    border-radius: 10%;
+    border-radius: 3px 10px 5px;
 
     /* Images as backgrounds of elements */
     /* quotes inside url() optional */
+    /* In case the image is larger than the element, it is not
+    scaled down by default and we will see only the part that
+    fits in the box. */
     background-image: url(/img-path/img.jpg);
+    /* You can also set the position explicitly (0,0 or top left by default) */
+    background-position: center center;
+    background-position: 0px 50px;
+    /* And background-size allows to control dimensions */
+    background-size: contain;
 
     /* Fonts */
     /* if the font family name has a space, it must be quoted */
@@ -313,24 +431,48 @@ selector {
         2px 2px 1px blue;
 }
 
-
-/* Using CSS */
-/* You need to include the CSS file in your page's <head>. This is the
- recommended method. Refer to http://stackoverflow.com/questions/8284365 */
-
-<link rel='stylesheet' type='text/css' href='path/to/style.css'>
-
-/* You can also include some CSS inline in your HTML. */
-<style>a {
-    color: purple;
+/* List elements */
+ul {
+    list-style-type: square;
+    list-style-position: outside;
+    list-style-image: none;
+    /* shorthand */
+    list-style: square outside url("some_img.png");
 }
 
-</style>
-/* Or directly set CSS properties on the element. */
-<div style="border: 1px solid red;"></div>
-/* Usually the more specific selector's rules
-are applied, but using `!important` this can be overriden */
+/* Set the display property to inline for list items to make
+them sit on the same line with the others, acting as inline elements. */
 
+/* Links */
+/* a:link - defines the style for normal unvisited links.
+a:visited - defines the style for visited links.
+a:active - a link becomes active once you click on it.
+a:hover - a link is hovered when the mouse is over it. */
+a:hover {
+    background-color: magenta;
+    text-decoration: none;
+}
+
+/* Tables */
+/* Border collapse removes the double
+borders that would appear by default */
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td,
+th {
+    border: 1px solid black;
+    text-align: center;
+}
+
+tr:nth-child(even) {
+    background-color: gray;
+}
+
+/* Usually the more specific selector's rules
+ are applied, but using `!important` this can be overriden */
 /* A */
 p.class1[attr='value']
 
