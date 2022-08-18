@@ -11,6 +11,11 @@ Build tags are placed before the package clause near or at the top of the file
 followed by a blank line or other line comments. */
 
 // A package clause starts every source file.
+// Packages are the standard way of grouping code logically together.
+// When a package is imported, only entities starting with a capital letter
+// can be accessed. By convention, Go uses camelCase unless you want to give
+// access to something to other code that imports the package, in which case
+// you use PascalCase.
 // Main is a special name declaring an executable rather than a library.
 package main
 
