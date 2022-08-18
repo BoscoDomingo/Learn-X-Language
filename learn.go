@@ -122,6 +122,16 @@ can include line breaks.` // Multi-line string.
 	m := map[string]int{"three": 3, "four": 4}
 	m["one"] = 1
 
+	// If you access an unitialised value in a map, it will return the 0
+	// value for its type.
+	fmt.Println(m["foo"]) // 0
+	// Hence why "ok" is used to check if an operation went well.
+	if v, ok := m["foo"]; ok {
+		fmt.Println("foo:", v)
+	} else {
+		fmt.Println("foo is not present")
+	}
+
 	// Unused variables are an error in Go.
 	// The underscore lets you "use" a variable but discard its value.
 	_, _, _, _, _, _, _, _, _, _ = str, s2, g, f, u, pi, n, a5, s4, bs
@@ -366,13 +376,6 @@ func learnVariadicParams(myStrings ...interface{}) {
 }
 
 func learnErrorHandling() {
-	// ", ok" idiom used to tell if something worked or not.
-	m := map[int]string{3: "three", 4: "four"}
-	if x, ok := m[1]; !ok { // ok will be false because 1 is not in the map.
-		fmt.Println("no one there")
-	} else {
-		fmt.Print(x) // x would be the value, if it were in the map.
-	}
 	// An error value communicates not just "ok" but more about the problem.
 	if _, err := strconv.Atoi("non-int"); err != nil { // _ discards value
 		// prints 'strconv.ParseInt: parsing "non-int": invalid syntax'
